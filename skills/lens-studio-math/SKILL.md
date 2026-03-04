@@ -1,6 +1,6 @@
 ---
 name: lens-studio-math
-description: Reference guide for Lens Studio's math types and utilities — vec2/vec3/vec4/quat/mat4, MathUtils (DegToRad, RadToDeg, clamp, remap, lerp, inverseLerp), and Lens Studio's right-handed coordinate system (vec3.forward()=(0,0,-1)). Covers construction, arithmetic (uniformScale, dot, cross, normalize, distance), quaternion creation from Euler angles (pitch/yaw/roll XYZ order), quat.lookAt with parallel-vector guard, quat.slerp, combining rotations with multiply, getWorldTransform/setWorldTransform, mat4 inverse and transform extraction, and practical recipes: billboard, frame-rate-independent smooth follow, angle between directions, world-to-screen pixel position, project-to-plane, color lerp via vec4, and parsing BLE sensor quaternion bytes. Use this skill for any 3D math, position/rotation/scale arithmetic, or coordinate-space conversion in a Lens Studio TypeScript script.
+description: Reference guide for Lens Studio's math types and utilities — vec2/vec3/vec4/quat/mat4, MathUtils (DegToRad, RadToDeg, clamp, remap, lerp, inverseLerp), ScreenTransform 2D anchor/offset/size system, and Lens Studio's right-handed coordinate system (vec3.forward()=(0,0,-1)). Covers construction, arithmetic (uniformScale, dot, cross, normalize, distance), quaternion creation from Euler angles (pitch/yaw/roll XYZ order), quat.lookAt with parallel-vector guard, quat.slerp, combining rotations with multiply, getWorldTransform/setWorldTransform, mat4 inverse and transform extraction, and practical recipes: billboard, frame-rate-independent smooth follow, angle between directions, world-to-screen pixel position, project-to-plane, color lerp via vec4, ScreenTransform coordinate conversions, and parsing BLE sensor quaternion bytes. Use this skill for any 3D math, 2D UI positioning, position/rotation/scale arithmetic, or coordinate-space conversion in a Lens Studio TypeScript script.
 ---
 
 # Lens Studio Math — Reference Guide
@@ -252,6 +252,60 @@ function worldToScreenPixels(cam: Camera, worldPos: vec3): vec2 {
 function flattenXZ(v: vec3): vec3 {
   return new vec3(v.x, 0, v.z).normalize()
 }
+```
+
+---
+
+## ScreenTransform — 2D UI Math
+
+`ScreenTransform` positions 2D elements (images, text) in screen space. Its coordinate system uses **normalised values**: `(0, 0)` is the canvas centre; `(1, 1)` is the top-right; `(-1, -1)` is the bottom-left.
+
+```typescript
+const st = this.sceneObject.getComponent('Component.ScreenTransform')
+
+// Anchors define which part of the parent element this element is pinned to.
+// Values are in [0, 1] range where (0,0) = bottom-left of parent, (1,1) = top-right.
+st.anchors.setMin(new vec2(0, 0))    // pin to bottom-left corner of parent
+st.anchors.setMax(new vec2(1, 1))    // stretch to fill parent
+
+// Offsets add a pixel-like offset from the anchor edges (in units).
+st.offsets.setLeft(-50)
+st.offsets.setRight(50)
+st.offsets.setBottom(-30)
+st.offsets.setTop(30)
+
+// Position-only placement (anchors at same point = single anchor)
+st.anchors.setCenter(new vec2(0.5, 0.5))  // centre of parent
+st.position = new vec2(0, 0.25)           // move 25% up from centre
+
+// Size (width × height in screen units)
+st.size = new vec2(200, 100)
+```
+
+### Coordinate conversion
+
+```typescript
+// Local (ScreenTransform) → screen pixels
+const screenPos: vec2 = st.localPointToScreenPoint(new vec2(0, 0))   // centre of element
+
+// Screen pixels → local ScreenTransform space
+const localPt: vec2 = st.screenPointToLocalPoint(touchScreenPos)
+
+// Local → world space (for 3D placement aligned to a 2D element)
+const worldPt: vec3 = st.localPointToWorldPoint(new vec2(0, 0))
+
+// World → local
+const localPt2: vec2 = st.worldPointToLocalPoint(someWorldPos)
+```
+
+### Measuring a ScreenTransform element's size in world units
+
+```typescript
+// Compute width and height in world units by measuring two diagonal corners
+const a = st.localPointToWorldPoint(new vec2(-1, -1))
+const b = st.localPointToWorldPoint(new vec2( 1,  1))
+const width  = Math.abs(b.x - a.x)
+const height = Math.abs(b.y - a.y)
 ```
 
 ---

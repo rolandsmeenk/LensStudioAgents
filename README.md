@@ -47,7 +47,26 @@ Snapchat user data and social features — `UserContextSystem` (display name, Bi
 npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-user-context
 ```
 
----
+#### lens-studio-vfx
+VFX Graph particle system — `VFXComponent`, `.asset.properties` for passing data into a VFX graph at runtime (position, color, float, direction), particle emitter settings (rate, lifetime, shape, blend mode, world vs local space), spawning particles from script, sending face/body tracking data and screen-space positions to VFX, and the SpawnOnTap pattern.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-vfx
+```
+
+#### lens-studio-materials-shaders
+Materials and shaders — clone-before-modify rule, `mainPass.baseColor/opacity/baseTex`, blend modes (Normal/Add/Screen/Multiply), depth and cull settings, render order, `RenderTarget` setup for post-processing pipelines, material variants, graph-based Material Editor node system, exposing graph parameters to script, and colour-animated materials.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-materials-shaders
+```
+
+#### lens-studio-2d-ui
+2D UI and screen-space interaction — `ScreenTransform` anchors/offsets/size/pivot and coordinate conversions, `ScreenImage` texture and tint, `Text` component, `TouchComponent` (TouchStartEvent/MoveEvent/EndEvent), `TapEvent` for phone lenses, `ScreenRegionComponent` for touch blocking, LSTween UI animations, multi-swatch color picker pattern, and undo stack pattern.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-2d-ui
+```
 
 ### Spectacles Platform
 

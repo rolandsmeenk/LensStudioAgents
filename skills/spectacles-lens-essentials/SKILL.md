@@ -98,6 +98,41 @@ SIK is Snap's prebuilt AR interaction library. Add it to a project via the Asset
 | `ScrollView` | Scrollable UI list driven by hand swipe |
 | `ToggleButton` | On/off button, syncs visual state |
 
+### ToggleButton
+```typescript
+import { ToggleButton } from 'SpectaclesInteractionKit.lspkg/Components/UI/ToggleButton/ToggleButton'
+
+const toggleButton = this.sceneObject.getComponent(ToggleButton.getTypeName()) as ToggleButton
+
+// React to toggle events
+toggleButton.onStateChanged.add((isOn: boolean) => {
+  print('Toggle is now: ' + (isOn ? 'ON' : 'OFF'))
+  lampObject.enabled = isOn
+})
+
+// Read current state
+if (toggleButton.isToggledOn) {
+  print('Button is currently ON')
+}
+
+// Force a state programmatically
+toggleButton.toggle()
+```
+
+### ScrollView
+```typescript
+import { ScrollView } from 'SpectaclesInteractionKit.lspkg/Components/UI/ScrollView/ScrollView'
+
+const scrollView = this.sceneObject.getComponent(ScrollView.getTypeName()) as ScrollView
+
+// Listen for scroll position changes
+scrollView.onScrollPositionChanged.add((normalizedPos: number) => {
+  // normalizedPos: 0 = top, 1 = bottom
+  print('Scroll position: ' + normalizedPos)
+  updateVisibleItems(normalizedPos)
+})
+```
+
 ### Reading hand position in script
 ```typescript
 import { HandInputData } from 'SpectaclesInteractionKit.lspkg/Providers/HandInputData/HandInputData'
@@ -192,6 +227,33 @@ if (recordedBuffer) {
 ```typescript
 audioComponent.mixerChannel = 'Music'   // or 'SFX', 'Voice'
 ```
+
+### Audio-reactive visuals with AudioSpectrum
+
+`AudioSpectrum` gives you per-frame frequency band data from any `AudioComponent` — useful for visualisers, beat-reactive effects, or driving shader parameters.
+
+```typescript
+const audioSpectrum = this.sceneObject.getComponent('Component.AudioSpectrumComponent')
+
+const updateEvent = this.createEvent('UpdateEvent')
+updateEvent.bind(() => {
+  // bands: Float32Array of frequency magnitudes (length depends on band count setting)
+  const bands = audioSpectrum.getBands()
+  const bass  = bands[0]   // low frequency (kick drum, bass)
+  const mid   = bands[Math.floor(bands.length / 2)] // midrange
+  const high  = bands[bands.length - 1] // high frequency (hi-hat, sibilance)
+
+  // Drive a VFX property or shader uniform:
+  vfxComponent.asset.properties['intensity'] = bass
+  mat.mainPass.baseColor = new vec4(mid, 0.2, high, 1.0)
+
+  // Drive an object's scale
+  const s = 1.0 + bass * 2.0
+  this.sceneObject.getTransform().setLocalScale(new vec3(s, s, s))
+})
+```
+
+> Set up `AudioSpectrumComponent` in the Inspector: assign the `AudioComponent` source, set band count (32 or 64 are common), and choose linear or logarithmic scale.
 
 ---
 

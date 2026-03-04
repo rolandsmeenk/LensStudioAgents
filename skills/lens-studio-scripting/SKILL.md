@@ -86,6 +86,19 @@ export class MyComponent extends BaseScriptComponent {
 | `@hint('text')` | Adds a tooltip to the inspector field |
 | `@allowUndefined` | Prevents validation errors for optional inputs |
 | `@label('Display Name')` | Renames the field label shown in the inspector |
+| `@serializeField` | Persists a property value across hot-reloads in the editor (dev-time only) |
+
+### Input arrays
+
+To expose a list of assets or objects in the inspector:
+
+```typescript
+@input
+myObjects: SceneObject[]  // shown as a resizable list in the inspector
+
+@input
+audioTracks: AudioTrackAsset[]
+```
 
 ---
 
@@ -236,6 +249,36 @@ sceneObject.enabled = !sceneObject.enabled
 
 ---
 
+## Custom Events
+
+Lens Studio allows you to create named custom events and dispatch/receive them across scripts:
+
+```typescript
+// Dispatching a custom event
+const event = this.createEvent('CustomTrigger')
+event.bind(() => this.onCustomTrigger())
+
+// Sending a custom event to another script
+// (use a shared EventWrapper / callback pattern instead of global events)
+type OnScoreUpdate = (score: number) => void
+
+class ScoreManager extends BaseScriptComponent {
+  private listeners: OnScoreUpdate[] = []
+
+  addScoreListener(fn: OnScoreUpdate): void {
+    this.listeners.push(fn)
+  }
+
+  updateScore(score: number): void {
+    this.listeners.forEach(fn => fn(score))
+  }
+}
+```
+
+> **Note:** Lens Studio does not have a global event bus — prefer callback arrays or direct `@input` wiring for cross-component communication.
+
+---
+
 ## Common Gotchas
 
 - **Never call `getComponent` in `onAwake`** — the scene may not be fully loaded yet. Use `OnStartEvent`.
@@ -246,3 +289,5 @@ sceneObject.enabled = !sceneObject.enabled
 - **Destroying objects mid-update** can cause frame errors — defer with a `DelayedCallbackEvent` set to 0 delay if needed.
 - **Component caching**: call `getComponent` once in `OnStartEvent` and store the result; calling it every frame is expensive.
 - **`onDestroy` fires on the scene object being destroyed**, not when only a component is removed; if you need component-level cleanup, use `TurnOffEvent` or a manual teardown method.
+- **Script initialization order**: components on the same frame initialize roughly in scene-hierarchy order. If two components in the same frame need each other in `onAwake`, use `OnStartEvent` instead.
+- **`@serializeField`** only persists values in the Lens Studio editor (useful during development); it does not persist values on-device at runtime — use `persistentStorageSystem` for on-device persistence.
