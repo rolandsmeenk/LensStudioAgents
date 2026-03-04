@@ -7,6 +7,8 @@ description: Reference guide for Snap Cloud (Supabase-powered backend) in Specta
 
 **Snap Cloud** is Snap's managed backend platform, powered by Supabase. It gives Spectacles lenses a full backend out of the box: relational database, real-time subscriptions, file storage, and serverless functions.
 
+**Official docs:** [Spectacles Home](https://developers.snap.com/spectacles/home) · [Snap Cloud](https://developers.snap.com/spectacles/about-spectacles-features/snap-cloud) · [Internet Access](https://developers.snap.com/spectacles/about-spectacles-features/apis/internet-access) (required for fetch)
+
 ---
 
 ## Architecture Overview

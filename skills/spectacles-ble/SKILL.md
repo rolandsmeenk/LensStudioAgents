@@ -7,6 +7,8 @@ description: Reference guide for Bluetooth Low Energy (BLE) in Spectacles lenses
 
 Spectacles can act as a **BLE Central** (scanner + connector) to communicate bidirectionally with any BLE Peripheral — an Arduino, a game controller, a phone app, or any custom BLE device.
 
+**Official docs:** [Spectacles Home](https://developers.snap.com/spectacles/home) · [Experimental APIs](https://developers.snap.com/spectacles/permission-privacy/experimental-apis) (BLE enablement)
+
 > **Enable BLE**: *Project Settings → Spectacles → Experimental APIs → ✅ Bluetooth Low Energy*
 
 ---

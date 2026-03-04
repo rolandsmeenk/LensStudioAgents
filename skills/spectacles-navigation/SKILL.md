@@ -7,6 +7,8 @@ description: Reference guide for location-based AR and navigation on Snap Specta
 
 Spectacles supports three levels of location-awareness, from precise indoor anchoring to city-scale outdoor navigation.
 
+**Official docs:** [Spectacles Home](https://developers.snap.com/spectacles/home) · [Spectacles Navigation Kit](https://developers.snap.com/spectacles/about-spectacles-frameworks/spectacles-navigation-kit) · [Start Building](https://developers.snap.com/spectacles/get-started/start-building/build-your-first-spectacles-lens-tutorial)
+
 | Level | API / Feature | Precision |
 |---|---|---|
 | Indoor / room-scale | Custom Locations | cm-level |

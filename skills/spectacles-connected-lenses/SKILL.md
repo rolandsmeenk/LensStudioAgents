@@ -7,6 +7,8 @@ description: Reference guide for real-time multiplayer AR on Spectacles using Co
 
 **Connected Lenses** let multiple Spectacles users share a real-time AR session. The primary framework is the **Spectacles Sync Kit**, built on top of Lens Studio's Lens Cloud networking layer.
 
+**Official docs:** [Spectacles Home](https://developers.snap.com/spectacles/home) · [Connected Lenses](https://developers.snap.com/spectacles/about-spectacles-features/connected-lenses) · [Spectacles Sync Kit](https://developers.snap.com/spectacles/about-spectacles-frameworks/spectacles-sync-kit) (under Spectacles Frameworks)
+
 ---
 
 ## Architecture

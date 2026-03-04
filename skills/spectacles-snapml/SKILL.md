@@ -7,6 +7,8 @@ description: Reference guide for on-device machine learning in Spectacles lenses
 
 **SnapML** lets you run custom machine learning models directly on the Spectacles hardware, with no cloud round-trip needed. Models run on the device's NPU (preferred) or GPU, making inference fast enough for real-time AR (typically 10–30 fps depending on model size).
 
+**Official docs:** [Spectacles Home](https://developers.snap.com/spectacles/home) · [SnapML on Spectacles](https://developers.snap.com/spectacles/about-spectacles-features/snapml-on-spectacles)
+
 > **Simulator note**: On the Lens Studio desktop simulator, MLComponent falls back to CPU. Always profile on-device for accurate performance numbers.
 
 ---

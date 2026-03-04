@@ -7,6 +7,8 @@ description: Reference guide for AI-powered AR lenses using the Remote Service G
 
 The primary bridge between a lens and external AI models on Spectacles is the **Remote Service Gateway (RSG)**. RSG is Snap's managed, authenticated proxy layer that handles auth, rate limiting, and response streaming for any registered endpoint — not just AI endpoints.
 
+**Official docs:** [Spectacles Home](https://developers.snap.com/spectacles/home) · [Features Overview](https://developers.snap.com/spectacles/about-spectacles-features/overview) (Camera Module for vision input)
+
 ---
 
 ## Core Concepts

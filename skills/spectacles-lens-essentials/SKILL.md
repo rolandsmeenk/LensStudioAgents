@@ -7,9 +7,13 @@ description: Reference guide for foundational Lens Studio patterns on Spectacles
 
 A compact reference for the most commonly used systems when building Spectacles lenses in Lens Studio.
 
+**Official docs:** [Spectacles Home](https://developers.snap.com/spectacles/home) · [Features Overview](https://developers.snap.com/spectacles/about-spectacles-features/overview) · [Spatial Design](https://developers.snap.com/spectacles/best-practices/design-for-spectacles/introduction-to-spatial-design)
+
 ---
 
-## GestureModule (Low-level Spectacles Gesture API)
+## GestureModule (Spectacles Gesture API)
+
+The docs describe the **Gesture Module** as an ML-based API for reliable gesture detection (pinch, targeting, grab). Use it for raw events when you need more control than SIK components.
 
 The `GestureModule` is the Spectacles-native API for reliable ML-based gesture detection. Use it for raw pinch, targeting, and grab events when you need more control than SIK's higher-level components offer.
 
@@ -339,6 +343,12 @@ storage.store.putFloat('highScore', 42.5)
 const name = storage.store.getString('username')
 const score = storage.store.getFloat('highScore')
 ```
+
+---
+
+## Display & sizing (Spectacles)
+
+From the [Spatial Design](https://developers.snap.com/spectacles/best-practices/design-for-spectacles/introduction-to-spatial-design) docs: the displays achieve full overlap at **1.1 m** from the user; at that distance the visible content area is ~**1000×1397 px** (~53×77 cm). The **focus plane is at 1 m** — place highly detailed content near this distance. The display is **portrait ~3:4**. Design for hands-free and natural interactions; the OS reserves space on the hand for a system button; the rest is available for your lens.
 
 ---
 
