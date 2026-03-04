@@ -1,6 +1,6 @@
 ---
 name: lens-studio-math
-description: Reference guide for Lens Studio's math types and utilities — vec2/vec3/vec4/quat/mat4, MathUtils (DegToRad, RadToDeg, clamp, remap, lerp, inverseLerp), and Lens Studio's right-handed coordinate system (vec3.forward()=(0,0,-1)). Covers construction, arithmetic (uniformScale, dot, cross, normalize, distance), quaternion creation from Euler angles (pitch/yaw/roll XYZ order), quat.lookAt with parallel-vector guard, quat.slerp, combining rotations with multiply, getWorldTransform/setWorldTransform, and practical recipes: billboard, frame-rate-independent smooth follow, angle between directions, world-to-screen UV, project-to-plane, color lerp via vec4, and parsing BLE sensor quaternion bytes. Use this skill for any 3D math, position/rotation/scale arithmetic, or coordinate-space conversion in a Lens Studio TypeScript script.
+description: Reference guide for Lens Studio's math types and utilities — vec2/vec3/vec4/quat/mat4, MathUtils (DegToRad, RadToDeg, clamp, remap, lerp, inverseLerp), and Lens Studio's right-handed coordinate system (vec3.forward()=(0,0,-1)). Covers construction, arithmetic (uniformScale, dot, cross, normalize, distance), quaternion creation from Euler angles (pitch/yaw/roll XYZ order), quat.lookAt with parallel-vector guard, quat.slerp, combining rotations with multiply, getWorldTransform/setWorldTransform, mat4 inverse and transform extraction, and practical recipes: billboard, frame-rate-independent smooth follow, angle between directions, world-to-screen pixel position, project-to-plane, color lerp via vec4, and parsing BLE sensor quaternion bytes. Use this skill for any 3D math, position/rotation/scale arithmetic, or coordinate-space conversion in a Lens Studio TypeScript script.
 ---
 
 # Lens Studio Math — Reference Guide
@@ -41,11 +41,12 @@ const dot  = a.dot(b)             // scalar: angle relationship, projection
 const cross = a.cross(b)          // perpendicular vector (right-hand rule)
 const dist = a.distance(b)        // Euclidean distance
 
-// Lerp (linear interpolation) — how Lens Studio does it:
+// Lerp (linear interpolation) — manual is most portable:
+const lerped = a.add(b.sub(a).uniformScale(t))
+
+// Or with SIK helper (requires SpectaclesInteractionKit imported):
 import { mix } from 'SpectaclesInteractionKit.lspkg/Utils/animate'
 const lerped = mix(a, b, t)       // t = 0 → a, t = 1 → b
-// Or manually:
-const lerped = a.add(b.sub(a).uniformScale(t))
 ```
 
 ---
@@ -92,8 +93,17 @@ const rot2 = quat.fromEulerAngles(
 // Identity (no rotation)
 const identity = quat.quatIdentity()
 
-// Look at a direction
-const lookRot = quat.lookAt(forward, up)  // forward = where to point, up = world up
+// Look at a direction — ALWAYS guard against parallel forward/up vectors
+function safeLookAt(forward: vec3, up: vec3): quat {
+  const dot = forward.normalize().dot(up.normalize())
+  if (Math.abs(dot) > 0.999) {
+    // forward is nearly parallel to up — choose a fallback up
+    up = Math.abs(forward.dot(vec3.right())) < 0.999
+      ? vec3.right()
+      : vec3.forward()
+  }
+  return quat.lookAt(forward, up)
+}
 
 // From axis + angle
 const axisRot = quat.angleAxis(45 * MathUtils.DegToRad, vec3.up())
@@ -119,6 +129,27 @@ const fwd = rot.multiplyVec3(vec3.forward())
 // Get Euler angles back
 const euler = rot.toEulerAngles()  // returns vec3 in radians
 const yawDeg = euler.y * (180 / Math.PI)
+```
+
+---
+
+## mat4 — 4×4 Matrix
+
+```typescript
+// Get the full world transform of a scene object
+const matrix: mat4 = sceneObject.getTransform().getWorldTransform()
+
+// Invert a matrix (useful for world→local conversion)
+const invMatrix = matrix.inverse()
+
+// Transform a point from local to world space manually
+const worldPoint = matrix.multiplyPoint(localPoint)  // vec3 → vec3
+
+// Transform a direction (ignores translation)
+const worldDir = matrix.multiplyDirection(localDir)  // vec3 → vec3
+
+// Apply a full transform matrix
+sceneObject.getTransform().setWorldTransform(someMatrix)
 ```
 
 ---
@@ -182,7 +213,7 @@ const matrix = t.getWorldTransform()           // mat4
 const camPos = mainCamera.getSceneObject().getTransform().getWorldPosition()
 const objPos = this.sceneObject.getTransform().getWorldPosition()
 const dir = camPos.sub(objPos).normalize()
-const rot = quat.lookAt(dir, vec3.up())
+const rot = safeLookAt(dir, vec3.up())    // use the safeLookAt helper above
 this.sceneObject.getTransform().setWorldRotation(rot)
 ```
 
@@ -193,7 +224,9 @@ const SPEED = 5 // units / second
 const current = this.sceneObject.getTransform().getWorldPosition()
 const target  = this.targetObject.getTransform().getWorldPosition()
 const alpha = MathUtils.clamp(getDeltaTime() * SPEED, 0, 1)
-this.sceneObject.getTransform().setWorldPosition(mix(current, target, alpha))
+this.sceneObject.getTransform().setWorldPosition(
+  current.add(target.sub(current).uniformScale(alpha))
+)
 ```
 
 ### Angle between two directions
@@ -204,15 +237,13 @@ function angleBetween(a: vec3, b: vec3): number {
 }
 ```
 
-### Project world position to screen UV
+### Project world position to screen pixel position
 ```typescript
-// Convert a world point to a normalised screen position [0,1]
-function worldToScreenUV(cam: Camera, worldPos: vec3): vec2 {
-  const screenPos = cam.worldSpaceToScreenSpace(worldPos)
-  return new vec2(
-    screenPos.x / screen.getWidth(),
-    screenPos.y / screen.getHeight()
-  )
+// Returns a vec2 in screen pixels (NOT normalised UV).
+// To get UV: divide x by screen width, y by screen height.
+function worldToScreenPixels(cam: Camera, worldPos: vec3): vec2 {
+  return cam.worldSpaceToScreenSpace(worldPos)
+  // Returns vec2 where x ∈ [0, screenWidth], y ∈ [0, screenHeight]
 }
 ```
 
@@ -230,6 +261,7 @@ function flattenXZ(v: vec3): vec3 {
 - **`vec3.forward()` is `(0, 0, -1)`** in Lens Studio (right-handed, Z pointing toward viewer). Don't assume `(0, 0, 1)`.
 - **Never modify vec3/quat in-place** — most ops return new instances. `a.add(b)` returns a new vec3; `a` is unchanged.
 - **Euler angle order** in `quat.fromEulerAngles(x, y, z)` is pitch, yaw, roll (XYZ). Mixing up the order causes unexpected rotations.
-- **`quat.lookAt(forward, up)` is frame-dependent** — if `forward` is nearly parallel to `up`, the rotation becomes undefined. Guard with a dot product check.
-- **Gimbal lock** doesn't affect quaternions, but converting to/from Euler angles can still produce surprising results for rotations near ±90° on X.
+- **`quat.lookAt(forward, up)` is undefined when forward ≈ up** — always guard with a dot product check and swap to a fallback up vector.
+- **`camera.worldSpaceToScreenSpace()` returns screen pixels**, not UV coordinates. Divide by screen dimensions to get [0,1] UV.
 - **`getDeltaTime()`** returns seconds as a float — multiply by it for frame-rate-independent speeds.
+- **`mat4.inverse()`** can return garbage if the matrix is singular (e.g., zero scale). Check for near-zero scale before inverting.

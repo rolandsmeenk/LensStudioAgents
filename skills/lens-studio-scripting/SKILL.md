@@ -1,6 +1,6 @@
 ---
 name: lens-studio-scripting
-description: Reference guide for the Lens Studio TypeScript component system — covering the @component, @input, @hint, @allowUndefined, and @label decorators, the BaseScriptComponent lifecycle (onAwake vs OnStartEvent, UpdateEvent, DelayedCallbackEvent one-shot and repeating timers, TurnOnEvent, onDestroy), accessing components with getComponent (plus null-check patterns to fix 'cannot read property of null' errors), cross-TypeScript imports with getTypeName(), NativeLogger vs print, prefab instantiation (sync and async), SceneObject hierarchy queries, and enabling/disabling objects. Use this skill whenever writing or debugging any Lens Studio TypeScript script, wiring up scene objects, or fixing 'this is undefined' or null-reference errors — platform-agnostic (works for Spectacles and phone lenses).
+description: Reference guide for the Lens Studio TypeScript component system — covering the @component, @input, @hint, @allowUndefined, and @label decorators, the BaseScriptComponent lifecycle (onAwake vs OnStartEvent, UpdateEvent, DelayedCallbackEvent one-shot and repeating timers, TurnOnEvent/TurnOffEvent, onDestroy), accessing components with getComponent (plus null-check patterns to fix 'cannot read property of null' errors), cross-TypeScript imports with getTypeName(), NativeLogger vs print, prefab instantiation (sync and async), SceneObject hierarchy queries, and enabling/disabling objects. Use this skill whenever writing or debugging any Lens Studio TypeScript script, wiring up scene objects, or fixing 'this is undefined' or null-reference errors — platform-agnostic (works for Spectacles and phone lenses).
 ---
 
 # Lens Studio Scripting — Reference Guide
@@ -28,6 +28,10 @@ export class MyComponent extends BaseScriptComponent {
   @allowUndefined         // makes the field optional in the inspector
   optionalAudio: AudioComponent
 
+  @input
+  @label('Display Name') // rename the field label in the inspector
+  internalProp: number = 0
+
   // --- Private state ---
   private elapsedTime: number = 0
 
@@ -53,7 +57,7 @@ export class MyComponent extends BaseScriptComponent {
   }
 
   onDestroy(): void {
-    // Called when the component/scene object is destroyed.
+    // Called when the scene object this component belongs to is destroyed.
     // Use to unsubscribe events, clean up sessions, etc.
   }
 }
@@ -67,8 +71,9 @@ export class MyComponent extends BaseScriptComponent {
 | `OnStartEvent` | Scene finishes loading | Access other components |
 | `UpdateEvent` | Every rendered frame | Per-frame logic |
 | `DelayedCallbackEvent` | After N seconds | Timers, deferred actions |
-| `TurnOnEvent` / `TurnOffEvent` | Object enabled/disabled | React to visibility changes |
-| `onDestroy` | Object is destroyed | Clean up resources |
+| `TurnOnEvent` | Object becomes enabled (`.enabled = true`) | React to visibility on |
+| `TurnOffEvent` | Object becomes disabled (`.enabled = false`) | React to visibility off |
+| `onDestroy` | Scene object is destroyed | Clean up resources |
 
 ---
 
@@ -80,7 +85,7 @@ export class MyComponent extends BaseScriptComponent {
 | `@input` | Exposes the property in the Lens Studio Inspector |
 | `@hint('text')` | Adds a tooltip to the inspector field |
 | `@allowUndefined` | Prevents validation errors for optional inputs |
-| `@label('Display Name')` | Renames the field in the inspector |
+| `@label('Display Name')` | Renames the field label shown in the inspector |
 
 ---
 
@@ -108,15 +113,7 @@ otherComponent: ScriptComponent  // assign in inspector
 const typed = otherComponent as unknown as MyOtherComponent
 ```
 
-**Method B — `require` (for accessing a JS component from TS)**
-```typescript
-// In the TS file:
-declare const SomeJSModule: any // put this in a .d.ts declaration file
-// or use:
-const jsScript = childObject.getComponent('ScriptComponent')
-```
-
-**Method C — TypeScript-to-TypeScript import**
+**Method B — TypeScript-to-TypeScript import**
 ```typescript
 import { TSComponentA } from './TSComponentA'
 // Then get the component and cast:
@@ -128,8 +125,14 @@ const comp = this.sceneObject.getComponent(TSComponentA.getTypeName()) as unknow
 ## Scene Object Queries
 
 ```typescript
-// Find by name anywhere in the scene
-const obj = scene.getRootObject().findChild('TargetObject', true) // true = recursive
+// Find by name across the whole scene (recursive)
+const obj = scene.getRootObject(0).findChild('TargetObject', true)
+
+// Iterate all root objects (phone lenses often have one root)
+const rootCount = scene.getRootObjectsCount()
+for (let i = 0; i < rootCount; i++) {
+  const root = scene.getRootObject(i)
+}
 
 // Find by name (built-in alternative)
 const obj = scene.findByName('TargetObject')
@@ -229,6 +232,8 @@ meshVisual.enabled = false
 sceneObject.enabled = !sceneObject.enabled
 ```
 
+`TurnOnEvent` fires after `enabled` is set to `true`; `TurnOffEvent` fires after `enabled` is set to `false`. Both fire on the object itself, not on children.
+
 ---
 
 ## Common Gotchas
@@ -240,3 +245,4 @@ sceneObject.enabled = !sceneObject.enabled
 - **`this` inside callbacks**: if using a plain `function() {}` callback (not an arrow function), `this` will be wrong. Either use arrow functions or assign `const self = this` before the callback.
 - **Destroying objects mid-update** can cause frame errors — defer with a `DelayedCallbackEvent` set to 0 delay if needed.
 - **Component caching**: call `getComponent` once in `OnStartEvent` and store the result; calling it every frame is expensive.
+- **`onDestroy` fires on the scene object being destroyed**, not when only a component is removed; if you need component-level cleanup, use `TurnOffEvent` or a manual teardown method.

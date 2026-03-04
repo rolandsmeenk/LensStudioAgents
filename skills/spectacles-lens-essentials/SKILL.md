@@ -1,6 +1,6 @@
 ---
 name: spectacles-lens-essentials
-description: Reference guide for foundational Lens Studio patterns on Spectacles — covering SIK components (PinchButton, DragInteractable, GrabInteractable, ScrollView), hand-tracking gestures, physics bodies/colliders/callbacks (including audio-on-collision), LSTween animation (position/scale/rotation/color tweens), prefab instantiation at runtime, materials (clone-before-modify), spatial anchors, on-device persistent storage (putString/getFloat), spatial images, and the Path Pioneer raycasting pattern. Use this skill for any Spectacles lens that needs interaction, motion, animation, physics, audio, or persistent local storage — including Essentials, Throw Lab, Spatial Persistence, Spatial Image Gallery, Path Pioneer, Public Speaker, Voice Playback, Material Library, and DJ Specs samples.
+description: Reference guide for foundational Lens Studio patterns on Spectacles — covering the GestureModule (pinch down/up/strength, targeting, grab, phone-in-hand with correct TypeScript API), SIK components (PinchButton, DragInteractable, GrabInteractable, ScrollView), hand-tracking gestures, physics bodies/colliders/callbacks (including audio-on-collision), LSTween animation (position/scale/rotation/color tweens), prefab instantiation at runtime, materials (clone-before-modify), spatial anchors, on-device persistent storage (putString/getFloat), spatial images, and the Path Pioneer raycasting pattern. Use this skill for any Spectacles lens that needs interaction, motion, animation, physics, audio, or persistent local storage — including Essentials, Throw Lab, Spatial Persistence, Spatial Image Gallery, Path Pioneer, Public Speaker, Voice Playback, Material Library, and DJ Specs samples.
 ---
 
 # Spectacles Lens Essentials — Reference Guide
@@ -9,9 +9,83 @@ A compact reference for the most commonly used systems when building Spectacles 
 
 ---
 
+## GestureModule (Low-level Spectacles Gesture API)
+
+The `GestureModule` is the Spectacles-native API for reliable ML-based gesture detection. Use it for raw pinch, targeting, and grab events when you need more control than SIK's higher-level components offer.
+
+```typescript
+@component
+export class GestureExample extends BaseScriptComponent {
+  private gestureModule: GestureModule = require('LensStudio:GestureModule')
+
+  onAwake(): void {
+    // --- Pinch ---
+    this.gestureModule
+      .getPinchDownEvent(GestureModule.HandType.Right)
+      .add((args: PinchDownArgs) => {
+        // args.confidence: 0–1, how confident the model is
+        // args.palmOrientation: vec3, palm facing direction
+        print('Right pinch down, confidence: ' + args.confidence)
+      })
+
+    this.gestureModule
+      .getPinchStrengthEvent(GestureModule.HandType.Right)
+      .add((args: PinchStrengthArgs) => {
+        // args.strength: 0 = no pinch, 1 = full pinch
+        print('Pinch strength: ' + args.strength)
+      })
+
+    this.gestureModule
+      .getPinchUpEvent(GestureModule.HandType.Right)
+      .add((args: PinchUpArgs) => {
+        // args.palmOrientation: vec3
+        print('Right pinch up')
+      })
+
+    // Use GestureModule.HandType.Left, .Right, or .Both
+  }
+}
+```
+
+### Targeting Gesture (index finger pointing)
+
+```typescript
+this.gestureModule
+  .getTargetingStartEvent(GestureModule.HandType.Right)
+  .add(() => print('Started pointing'))
+
+this.gestureModule
+  .getTargetingEndEvent(GestureModule.HandType.Right)
+  .add(() => print('Stopped pointing'))
+```
+
+### Grab Gesture (fist)
+
+```typescript
+this.gestureModule
+  .getGrabStartEvent(GestureModule.HandType.Both)
+  .add(() => print('Grab started (either hand)'))
+
+this.gestureModule
+  .getGrabEndEvent(GestureModule.HandType.Both)
+  .add(() => print('Grab released'))
+```
+
+### Phone-in-Hand Detection
+
+```typescript
+this.gestureModule
+  .getPhoneInHandEvent(GestureModule.HandType.Right)
+  .add(() => print('User is holding a phone in their right hand'))
+```
+
+> **GestureModule vs SIK**: Use `GestureModule` when you need raw events and confidence values. Use SIK's `PinchButton`, `DragInteractable`, etc. when you want high-level UI components with built-in visual feedback.
+
+---
+
 ## Spectacles Interaction Kit (SIK)
 
-SIK is Snap's prebuilt AR interaction library. It provides off-the-shelf hand tracking, pinch detection, UI controls, and interactable objects. Add it to a project via the Asset Library: search "Spectacles Interaction Kit".
+SIK is Snap's prebuilt AR interaction library. Add it to a project via the Asset Library: search **"Spectacles Interaction Kit"**. All SIK imports use the `SpectaclesInteractionKit.lspkg` package path.
 
 ### Key SIK Components
 
@@ -26,38 +100,19 @@ SIK is Snap's prebuilt AR interaction library. It provides off-the-shelf hand tr
 
 ### Reading hand position in script
 ```typescript
-import { HandInputData } from 'SpectaclesInteractionKit/Providers/HandInputData/HandInputData';
+import { HandInputData } from 'SpectaclesInteractionKit.lspkg/Providers/HandInputData/HandInputData'
 
-const handData = HandInputData.getInstance();
+const handData = HandInputData.getInstance()
 
-const updateEvent = this.createEvent('UpdateEvent');
+const updateEvent = this.createEvent('UpdateEvent')
 updateEvent.bind(() => {
-  const rightHand = handData.getDominantHand();
+  const rightHand = handData.getDominantHand()
   if (rightHand.isPinching()) {
-    const pinchPos = rightHand.getPinchPosition();
-    print('Pinch at: ' + JSON.stringify(pinchPos));
+    const pinchPos = rightHand.getPinchPosition()
+    print('Pinch at: ' + JSON.stringify(pinchPos))
   }
-});
+})
 ```
-
----
-
-## Gesture Module
-
-The Gesture Module is a lower-level API for custom gesture detection, separate from SIK.
-
-```typescript
-const gestureModule = require('LensStudio:GestureModule');
-
-// Listen for a specific gesture
-gestureModule.onGestureDetected.add((event) => {
-  if (event.gestureType === GestureType.HandRaise) {
-    print('Hand raised!');
-  }
-});
-```
-
-Common gesture types: `Pinch`, `Point`, `Ok`, `HandRaise`, `Palm`, `ThumbsUp`, `Victory`.
 
 ---
 
@@ -72,61 +127,37 @@ Lens Studio uses a Bullet-based physics engine. Components: **Body**, **Collider
 
 ### Applying forces in script
 ```typescript
-// Get the physics body component
-const body = this.sceneObject.getComponent('Physics.BodyComponent');
+const body = this.sceneObject.getComponent('Physics.BodyComponent')
 
 // Apply an impulse at the object's center
-body.applyImpulse(new vec3(0, 500, -200));
+body.applyImpulse(new vec3(0, 500, -200))
 
 // Apply torque
-body.applyTorqueImpulse(new vec3(0, 10, 0));
+body.applyTorqueImpulse(new vec3(0, 10, 0))
 
 // Set velocity directly (useful for throwing)
-body.velocity = velocity;
-body.angularVelocity = angularVel;
+body.velocity = velocity
+body.angularVelocity = angularVel
 ```
 
 ### Throw mechanics (from Throw Lab)
-Compute throw velocity from hand motion:
 ```typescript
 // Sample hand position over N frames, compute delta / dt
-const velocity = (currentPos.sub(prevPos)).uniformScale(1 / getDeltaTime());
-body.velocity = velocity.uniformScale(throwStrength);
+const velocity = (currentPos.sub(prevPos)).uniformScale(1 / getDeltaTime())
+body.velocity = velocity.uniformScale(throwStrength)
 ```
 
 ### Physics callbacks
 ```typescript
 body.onCollisionEnter.add((collision) => {
-  const other = collision.otherObject;
-  print('Hit: ' + other.name);
+  const other = collision.otherObject
+  print('Hit: ' + other.name)
 
-  // Spawn particles at impact point
   if (collision.contacts.length > 0) {
-    const point = collision.contacts[0].position;
-    spawnParticles(point);
+    const point = collision.contacts[0].position
+    spawnParticles(point)
   }
-});
-```
-
----
-
-## Raycasting
-
-```typescript
-const physics = require('LensStudio:Physics');
-
-// Cast a ray from a world position along a direction
-const hit = physics.raycast(origin, direction, /* maxDistance */ 100);
-if (hit) {
-  print('Hit: ' + hit.sceneObject.name + ' at ' + JSON.stringify(hit.position));
-}
-
-// Cast from the camera forward (gaze ray)
-const camera = scene.findByName('Camera').getComponent('Camera');
-const camTransform = camera.getSceneObject().getTransform();
-const origin = camTransform.getWorldPosition();
-const direction = camTransform.forward;
-const hit = physics.raycast(origin, direction, 50);
+})
 ```
 
 ---
@@ -135,34 +166,31 @@ const hit = physics.raycast(origin, direction, 50);
 
 ### Play audio
 ```typescript
-const audioComponent = this.sceneObject.getComponent('Component.AudioComponent');
-audioComponent.audioTrack = myAudioTrack;   // assign in inspector or via script
-audioComponent.play(1);                       // play once (pass 0 for loop)
-audioComponent.stop();
+const audioComponent = this.sceneObject.getComponent('Component.AudioComponent')
+audioComponent.audioTrack = myAudioTrack   // assign in inspector or via script
+audioComponent.play(1)                       // play once (pass 0 for loop)
+audioComponent.stop()
 ```
 
 ### Record and play back voice (from Voice Playback sample)
 ```typescript
-const voiceML = require('LensStudio:VoiceML');
+const voiceML = require('LensStudio:VoiceML')
 
-let recordedBuffer: AudioBuffer | null = null;
+let recordedBuffer: AudioBuffer | null = null
 
-// Start recording
-voiceML.startRecording((buffer) => {
-  recordedBuffer = buffer;
-});
+voiceML.startRecording((buffer: AudioBuffer) => {
+  recordedBuffer = buffer
+})
 
-// Stop and play back
-voiceML.stopRecording();
+voiceML.stopRecording()
 if (recordedBuffer) {
-  audioComponent.playAudioBuffer(recordedBuffer);
+  audioComponent.playAudioBuffer(recordedBuffer)
 }
 ```
 
 ### Audio mixer channels
-Use different channels to control relative volume:
 ```typescript
-audioComponent.mixerChannel = 'Music';   // or 'SFX', 'Voice'
+audioComponent.mixerChannel = 'Music'   // or 'SFX', 'Voice'
 ```
 
 ---
@@ -172,25 +200,25 @@ audioComponent.mixerChannel = 'Music';   // or 'SFX', 'Voice'
 LSTween (bundled in SIK) is a Lens Studio tween library for smooth property animation.
 
 ```typescript
-import { LSTween } from 'SpectaclesInteractionKit/Utils/LSTween/LSTween';
+import { LSTween } from 'SpectaclesInteractionKit.lspkg/Utils/LSTween/LSTween'
 
 // Move an object to a target position over 0.5 seconds
 LSTween.moveToWorld(sceneObject, targetPosition, 0.5)
   .easing(TWEEN.Easing.Quadratic.Out)
-  .start();
+  .start()
 
 // Scale up
-LSTween.scaleTo(sceneObject, new vec3(1, 1, 1), 0.3).start();
+LSTween.scaleTo(sceneObject, new vec3(1, 1, 1), 0.3).start()
 
 // Fade a screen image
-LSTween.colorTo(screenImage, new vec4(1, 1, 1, 0), 0.4).start(); // fade out
+LSTween.colorTo(screenImage, new vec4(1, 1, 1, 0), 0.4).start() // fade out
 ```
 
 Chain tweens with `.onComplete`:
 ```typescript
 LSTween.moveTo(obj, posA, 0.5)
   .onComplete(() => LSTween.moveTo(obj, posB, 0.5).start())
-  .start();
+  .start()
 ```
 
 ---
@@ -199,93 +227,65 @@ LSTween.moveTo(obj, posA, 0.5)
 
 ### Modifying material properties at runtime
 ```typescript
-const meshVisual = this.sceneObject.getComponent('Component.RenderMeshVisual');
-const mat = meshVisual.material.clone(); // clone so you don't affect other objects using same material
-meshVisual.material = mat;
+const meshVisual = this.sceneObject.getComponent('Component.RenderMeshVisual')
+const mat = meshVisual.material.clone() // clone so you don't affect other objects using same material
+meshVisual.material = mat
 
-// Set a float or colour pass property
-mat.mainPass.baseColor = new vec4(1, 0, 0, 1); // red
-mat.mainPass.opacity = 0.5;
+mat.mainPass.baseColor = new vec4(1, 0, 0, 1) // red
+mat.mainPass.opacity = 0.5
 ```
-
-### Graph Materials in Lens Studio
-- Use the **Graph Material Editor** (Material Editor → New → Graph Material) for visual shader authoring.
-- Use **Code Material Editor** (GLSL) for low-level custom shaders.
-- The **Material Library** sample contains ready-to-use materials: Fresnel, holographic, wireframe, iridescent, etc. Import them from that project as starting points.
-
-### Post Effects
-Add post-processing via **Post Effect** assets (e.g., bloom, chromatic aberration, colour grade). Apply them to the Camera's **Post Effects** list in the inspector.
 
 ---
 
 ## Spatial Images (2D → 3D)
 
-The **Spatial Image** API converts a flat image into a depth-aware 3D representation.
-
 ```typescript
-const spatialImageModule = require('LensStudio:SpatialImageModule');
+const spatialImageModule = require('LensStudio:SpatialImageModule')
 
 spatialImageModule.createSpatialImageFromTexture(myTexture, (spatialImage) => {
-  // spatialImage is a scene object with a rendered 3D mesh
-  spatialImage.setParent(scene.getRootObject());
-  spatialImage.getTransform().setWorldPosition(targetPosition);
-});
+  spatialImage.setParent(scene.getRootObject(0))
+  spatialImage.getTransform().setWorldPosition(targetPosition)
+})
 ```
-
-Tip: let the user browse their Snapchat memories via the Snap ML `UserImageProvider` and convert selected images to spatial images for an AR gallery (as in the Spatial Image Gallery sample).
 
 ---
 
 ## Spatial Anchors & Persistent Storage
 
-Spatial anchors attach content to a fixed real-world location that persists across sessions.
-
 ```typescript
-const spatialAnchorModule = require('LensStudio:SpatialAnchorModule');
+const spatialAnchorModule = require('LensStudio:SpatialAnchorModule')
 
 // Create an anchor at a world position
 spatialAnchorModule.createAnchor(worldPosition, (anchor) => {
-  // anchor.id is a string you store in persistent storage for retrieval later
-  saveToStorage('my_anchor', anchor.id);
-});
+  saveToStorage('my_anchor', anchor.id)
+})
 
 // Later: restore the anchor
-const anchorId = loadFromStorage('my_anchor');
+const anchorId = loadFromStorage('my_anchor')
 spatialAnchorModule.getAnchor(anchorId, (anchor) => {
-  sceneObject.getTransform().setWorldPosition(anchor.worldPosition);
-});
+  sceneObject.getTransform().setWorldPosition(anchor.worldPosition)
+})
 ```
 
 ### Persistent Storage (on-device)
 ```typescript
-const storage = global.persistentStorageSystem;
+const storage = global.persistentStorageSystem
 
-// Store a value (string, number, bool)
-storage.store.putString('username', 'Roland');
-storage.store.putFloat('highScore', 42.5);
+storage.store.putString('username', 'Roland')
+storage.store.putFloat('highScore', 42.5)
 
-// Retrieve
-const name = storage.store.getString('username');
-const score = storage.store.getFloat('highScore');
+const name = storage.store.getString('username')
+const score = storage.store.getFloat('highScore')
 ```
-
----
-
-## Path Creation & Raycasting (Path Pioneer pattern)
-
-The **Path Pioneer** sample shows drawing a walkable path in the real world:
-1. Raycast from the hand pinch point onto the World Mesh.
-2. Store hit positions as waypoints.
-3. Use a line renderer (or instantiated mesh stamps) to draw the path.
-4. Animate a character or particle along the stored waypoints.
 
 ---
 
 ## Common Gotchas
 
+- **GestureModule requires Spectacles** — it is not available for phone lenses or in the desktop simulator.
 - **SIK components expect a specific scene hierarchy** — read the SIK setup guide in its README before restructuring the scene.
 - **Physics and the World Mesh**: enable the World Mesh Collider in *Project Settings → World Understanding* so physics objects land on real surfaces.
 - **Cloning materials**: always call `material.clone()` before modifying properties at runtime, otherwise all objects sharing that material change together.
-- **`getDeltaTime()`** is your friend for frame-rate-independent motion; don't hard-code per-frame deltas.
+- **`getDeltaTime()`** is your friend for frame-rate-independent motion.
 - **Spatial anchors** require the user to rescan the area if they move far away; give the user a visual "anchor not found" state.
 - **Audio latency**: use pre-loaded `AudioTrack` assets rather than loading from URL for low-latency sound effects.

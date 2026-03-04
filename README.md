@@ -27,10 +27,24 @@ npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-stu
 ```
 
 #### lens-studio-world-query
-World understanding and scoring — `WorldQueryModule` HitTestSession for real-world surface detection, `Physics.createGlobalProbe().rayCast` for scene-collider hits, aligning objects to surface normals, and the LeaderboardModule for in-lens global scoreboards.
+World understanding and scoring — `WorldQueryModule` HitTestSession for real-world surface detection, semantic surface classification (floor/wall/ceiling/table, Spectacles only), `Physics.createGlobalProbe().rayCast` for scene-collider hits, SIK targeting interactor ray pattern, aligning objects to surface normals, and the LeaderboardModule for in-lens global scoreboards.
 
 ```bash
 npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-world-query
+```
+
+#### lens-studio-face-tracking
+Face and body AR tracking — `FaceTrackingComponent` (multi-face, `faceIndex`), 68 face landmarks, Face Mesh UV texturing, expression weights (mouth open, eye blink, smile, brow raise), 2D/3D face attachments (hat/eye/mouth anchors), Eye Tracking component, Face Retouch/Eye Color/Liquify/Stretch effects, Upper Body Tracking 3D, and Upper Body Mesh for seamless selfie occlusion.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-face-tracking
+```
+
+#### lens-studio-user-context
+Snapchat user data and social features — `UserContextSystem` (display name, Bitmoji, profile picture), Bitmoji 2D/3D loading via `BitmojiModule` + `RemoteMediaModule`, Bitmoji Head with live facial animation, Friends API (`FriendsComponent`, `FriendInfo`, Bitmoji Selfies & Stickers), Dynamic Response Poster/Responder mechanic, and Leaderboard.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-user-context
 ```
 
 ---

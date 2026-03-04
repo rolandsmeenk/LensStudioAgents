@@ -22,8 +22,10 @@ Use this table to decide what skill to use when starting a task:
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | **lens-studio-scripting**            | When writing or debugging any Lens Studio TypeScript script — component decorators, lifecycle events, component access, prefabs, timers, logging. |
 | **lens-studio-math**                 | When doing 3D math — vec2/vec3/vec4/quat/mat4, MathUtils, transform operations, coordinate-space conversions, or any position/rotation arithmetic. |
-| **lens-studio-world-query**          | When detecting real-world surfaces (WorldQueryModule hit tests), raycasting against scene colliders (Physics probe), or adding a global leaderboard. |
-| **spectacles-lens-essentials**       | When implementing interaction (SIK pinch/drag/grab), physics, animations (LSTween), materials, spatial anchors, persistent local storage, or spatial images. |
+| **lens-studio-face-tracking**        | When building face lenses — face mesh/effects, expression-driven animations (mouth open, blink), 2D/3D face attachments, eye tracking, upper body mesh, or selfie occluders. |
+| **lens-studio-user-context**         | When a lens needs the current user's name/Bitmoji, accesses friends' data, implements Dynamic Response (Poster/Responder), or adds a Leaderboard. |
+| **lens-studio-world-query**          | When detecting real-world surfaces (WorldQueryModule hit tests), semantic surface classification (floor/wall/ceiling), raycasting against scene colliders, or adding a leaderboard. |
+| **spectacles-lens-essentials**       | When implementing interaction (SIK or raw GestureModule pinch/targeting/grab), physics, animations (LSTween), materials, spatial anchors, persistent local storage, or spatial images. |
 | **spectacles-navigation**            | When anchoring AR to a real location (Custom Locations), showing a map, guiding the user with turn-by-turn directions, or querying nearby places. |
 | **spectacles-connected-lenses**      | When multiple Spectacles users need to share AR objects or state — Sync Kit, RealtimeStore, NetworkEventSystem, EntityOwnership, turn-based or physics multiplayer. |
 | **spectacles-networking**            | When calling a REST API, polling a JSON endpoint, loading remote images, embedding a webpage (WebView), or talking to a custom backend via Fetch. |

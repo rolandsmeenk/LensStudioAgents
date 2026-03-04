@@ -1,6 +1,6 @@
 ---
 name: spectacles-connected-lenses
-description: Reference guide for real-time multiplayer AR on Spectacles using Connected Lenses and Spectacles Sync Kit — covering session creation/joining (including 'already-in-session' error handling), TransformSyncComponent for position/rotation replication, RealtimeStore for shared key-value state, NetworkEventSystem for one-shot broadcast events, EntityOwnership for physics authority, Lens Cloud for persistent cross-session data, and patterns for turn-based (Tic Tac Toe) and real-time physics (Air Hockey). Also covers late-joiner state sync, transform drift mitigation, and store size limits. Use this skill whenever multiple Spectacles users need to share AR objects or state — covering Tic Tac Toe, Air Hockey, Laser Pointer, High Five, Shared Sync Controls, Spectacles Sync Kit, and Think Out Loud samples.
+description: Reference guide for real-time multiplayer AR on Spectacles using Connected Lenses and Spectacles Sync Kit — covering session creation/joining with joinOrCreateSession (including 'already-in-session' error handling), TransformSyncComponent for position/rotation replication, RealtimeStore for shared key-value state (max 512 bytes per key), NetworkEventSystem for one-shot broadcast events, EntityOwnership for physics authority, Lens Cloud for persistent cross-session data, and patterns for turn-based (Tic Tac Toe) and real-time physics (Air Hockey). Also covers late-joiner state sync, transform drift mitigation, and store size limits. Use this skill whenever multiple Spectacles users need to share AR objects or state — covering Tic Tac Toe, Air Hockey, Laser Pointer, High Five, Shared Sync Controls, Spectacles Sync Kit, and Think Out Loud samples.
 ---
 
 # Spectacles Connected Lenses — Reference Guide
@@ -23,7 +23,7 @@ The Sync Kit handles session creation/joining, object ownership, delta sync, and
 
 ## Sync Kit Setup
 
-Add via Asset Library (search "Spectacles Sync Kit"). Installs: `SyncKit` prefab, `RealtimeStore`, and helper components.
+Add via Asset Library (search **"Spectacles Sync Kit"**). Installs: `SyncKit` prefab, `RealtimeStore`, and helper components.
 
 1. Drag the **SyncKit** prefab into your scene.
 2. Set a unique **lens ID** on the SyncKit component.
@@ -31,14 +31,42 @@ Add via Asset Library (search "Spectacles Sync Kit"). Installs: `SyncKit` prefab
 
 ---
 
+## Session Management
+
+```typescript
+const connectedLensModule = require('LensStudio:ConnectedLensModule')
+
+// Join or create a session — handles the "already in session" case automatically
+connectedLensModule.joinOrCreateSession({}, (session, error) => {
+  if (error) {
+    print('Session error: ' + error)
+    // Common error codes:
+    // 'already_in_session' — user is already in a session from another lens
+    // 'session_not_found'  — tried to join a session that no longer exists
+    return
+  }
+  print('Session joined. Users: ' + session.users.length)
+})
+
+// Listen for user join/leave after session is active
+const session = connectedLensModule.getSession()
+session.onUserJoined.add((user) => spawnUserAvatar(user))
+session.onUserLeft.add((user)   => despawnUserAvatar(user.userId))
+
+// Identify the local user
+const myUserId = session.localUser.userId
+```
+
+---
+
 ## Transform Synchronisation
 
 ```typescript
-import { TransformSyncComponent } from 'SpectaclesSyncKit/Components/TransformSyncComponent';
+import { TransformSyncComponent } from 'SpectaclesSyncKit/Components/TransformSyncComponent'
 
 // Simply moving the object causes TransformSyncComponent to broadcast the change.
 // Remote clients receive position/rotation/scale updates automatically.
-this.sceneObject.getTransform().setWorldPosition(newPos);
+this.sceneObject.getTransform().setWorldPosition(newPos)
 ```
 
 Sync Kit interpolates on remote clients so motion appears smooth.
@@ -47,26 +75,29 @@ Sync Kit interpolates on remote clients so motion appears smooth.
 
 ## RealtimeStore — Shared State
 
-```typescript
-import { RealtimeStore } from 'SpectaclesSyncKit/Core/RealtimeStore';
+> **Size limit**: each key-value pair is capped at **512 bytes**. Store small values (indices, IDs, flags, short strings), not mesh data or large arrays.
 
-const store = RealtimeStore.getInstance();
+```typescript
+import { RealtimeStore } from 'SpectaclesSyncKit/Core/RealtimeStore'
+
+// The store is provided by the SyncKit prefab — get it from the SyncEntity, not as a singleton
+@input realtimeStore: RealtimeStore
 
 // Write
-store.putString('gameState', 'playing');
-store.putFloat('player1Score', 3);
-store.putBool('isPlayer1Turn', true);
+this.realtimeStore.putString('gameState', 'playing')
+this.realtimeStore.putFloat('player1Score', 3)
+this.realtimeStore.putBool('isPlayer1Turn', true)
 
 // Read
-const state = store.getString('gameState');
+const state = this.realtimeStore.getString('gameState')
 
 // React to remote changes
-store.onValueChanged.add((key, value) => {
-  if (key === 'gameState') updateGameUI(value as string);
-});
+this.realtimeStore.onValueChanged.add((key: string, value: any) => {
+  if (key === 'gameState') updateGameUI(value as string)
+})
 
-// Restrict a key to one user (optional)
-store.setOwner('player1Score', myUserId);
+// Restrict a key so only a specific user can write it
+this.realtimeStore.setOwner('player1Score', myUserId)
 ```
 
 ---
@@ -76,29 +107,15 @@ store.setOwner('player1Score', myUserId);
 One-shot events broadcast to all clients (good for collisions, high fives, scoring):
 
 ```typescript
-import { NetworkEventSystem } from 'SpectaclesSyncKit/Core/NetworkEventSystem';
+import { NetworkEventSystem } from 'SpectaclesSyncKit/Core/NetworkEventSystem'
 
-const net = NetworkEventSystem.getInstance();
+const net = NetworkEventSystem.getInstance()
 
-net.send('SCORE', { userId: myUserId, points: 1 });
+net.send('SCORE', { userId: myUserId, points: 1 })
 
 net.on('SCORE', (payload) => {
-  updateScoreboard(payload.userId, payload.points);
-});
-```
-
----
-
-## Session Management
-
-```typescript
-const connectedLensModule = require('LensStudio:ConnectedLensModule');
-const session = connectedLensModule.getSession();
-
-print('Users: ' + session.users.length);
-
-session.onUserJoined.add((user) => spawnUserAvatar(user));
-session.onUserLeft.add((user) => despawnUserAvatar(user.userId));
+  updateScoreboard(payload.userId, payload.points)
+})
 ```
 
 ---
@@ -106,17 +123,17 @@ session.onUserLeft.add((user) => despawnUserAvatar(user.userId));
 ## Turn-Based Pattern (Tic Tac Toe)
 
 ```typescript
-const MY_ID = connectedLensModule.getSession().localUser.userId;
+const MY_ID = connectedLensModule.getSession().localUser.userId
 
 function isMyTurn(): boolean {
-  return store.getString('currentPlayerId') === MY_ID;
+  return this.realtimeStore.getString('currentPlayerId') === MY_ID
 }
 
-function onCellTapped(cellIndex: number) {
-  if (!isMyTurn()) return;
-  store.putInt('cell_' + cellIndex, myPlayerIndex);
-  store.putString('currentPlayerId', getOtherPlayerId());
-  checkWinCondition();
+function onCellTapped(cellIndex: number): void {
+  if (!isMyTurn()) return
+  this.realtimeStore.putInt('cell_' + cellIndex, myPlayerIndex)
+  this.realtimeStore.putString('currentPlayerId', getOtherPlayerId())
+  checkWinCondition()
 }
 ```
 
@@ -127,15 +144,15 @@ function onCellTapped(cellIndex: number) {
 One client acts as physics authority; others receive positions:
 
 ```typescript
-import { EntityOwnership } from 'SpectaclesSyncKit/Core/EntityOwnership';
+import { EntityOwnership } from 'SpectaclesSyncKit/Core/EntityOwnership'
 
-const ownership = this.sceneObject.getComponent(EntityOwnership.getTypeName());
+const ownership = this.sceneObject.getComponent(EntityOwnership.getTypeName()) as EntityOwnership
 
 if (ownership.isOwner()) {
-  runPhysicsUpdate();           // simulate physics here
+  runPhysicsUpdate()           // simulate physics here
   // TransformSyncComponent broadcasts result
 } else {
-  physicsBody.bodyType = Physics.BodyType.Kinematic; // just follow sync, don't simulate
+  physicsBody.bodyType = Physics.BodyType.Kinematic // just follow sync, don't simulate
 }
 ```
 
@@ -146,13 +163,13 @@ if (ownership.isOwner()) {
 RealtimeStore is ephemeral — lost when the last user leaves. For persistence:
 
 ```typescript
-const lensCloud = require('LensStudio:LensCloud');
+const lensCloud = require('LensStudio:LensCloud')
 
-lensCloud.put({ key: 'sharedNote', value: 'Hello AR!' }, 'public_all');
+lensCloud.put({ key: 'sharedNote', value: 'Hello AR!' }, 'public_all')
 
 lensCloud.get('sharedNote', 'public_all', (result) => {
-  if (result.success) displayNote(result.value);
-});
+  if (result.success) displayNote(result.value)
+})
 ```
 
 Access levels: `private_user`, `public_user`, `public_all`.
@@ -161,8 +178,9 @@ Access levels: `private_user`, `public_user`, `public_all`.
 
 ## Common Gotchas
 
-- **One session at a time** — handle the case where the user is already in a session.
-- **Last-write-wins** for store conflicts — use server-side logic (Snap Cloud edge functions) for authoritative decisions.
+- **`joinOrCreateSession`** is the recommended entry point — it handles "already in session" gracefully.
+- **`session.localUser`** is the correct property for the local user (not `activeUser`).
+- **Last-write-wins** for store conflicts — use Snap Cloud edge functions (see `spectacles-cloud`) for authoritative server-side decisions.
+- **RealtimeStore cap**: 512 bytes per key — store small values (indices, IDs, flags), not large payloads.
 - **Design for latency** — events can arrive late or out of order; never assume instant receipt.
 - **Sync Kit version** must match your Lens Studio version — re-import after upgrading.
-- **Store size** — store small values (indices, IDs, flags), not large payloads or mesh data.
