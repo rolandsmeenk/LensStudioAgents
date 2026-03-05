@@ -8,7 +8,7 @@ It is intended for developers building AR lenses and experiences for **Snap Spec
 
 ## Skills
 
-All skill definitions live under `skills/`. These skills are available on [skill.sh](https://skill.sh). Each section below includes the install command for that skill.
+All skill definitions live under `skills/`. Each section below includes the install command for that skill.
 
 ### Lens Studio Core
 
