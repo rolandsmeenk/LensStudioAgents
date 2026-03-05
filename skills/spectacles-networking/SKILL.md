@@ -20,7 +20,7 @@ The **Remote Service Gateway (RSG)** is a third option but is specific to AI/clo
 
 - Enable **Internet Access**: *Project Settings → Capabilities → ✅ Internet Access*. Without this, all requests fail on-device.
 - **Fetch API**: Spectacles OS v5.58.6621+ and Lens Studio v5.3+. Use **InternetModule** (Lens Studio 5.9+): add the module to your project and call `internetModule.fetch(request)`.
-- **HTTPS** is required for publishable lenses; **HTTP** requires [Experimental APIs](https://developers.snap.com/spectacles/permission-privacy/experimental-apis) and cannot be published.
+- **HTTPS** is required for publishable lenses; **HTTP** requires [Experimental APIs](https://developers.snap.com/spectacles/permission-privacy/experimental-apis) and cannot be published. **Never ship a lens using HTTP**, even in preview builds shared with others — switch to HTTPS before distributing.
 - Fetch only works in Preview when Device Type Override is set to Spectacles.
 
 ---
@@ -52,6 +52,7 @@ const request = new Request('https://api.example.com/submit', {
   body: JSON.stringify({ key: 'value' })
 })
 const response = await this.internetModule.fetch(request)
+if (!response.ok) { print('HTTP error: ' + response.status); return }
 const data = await response.json()
 ```
 
@@ -161,6 +162,8 @@ Web View renders a full web page into a texture that can be applied to any mesh 
 webViewComponent.setUrl('https://myapp.example.com')
 
 // Inject JavaScript into the page
+// ⚠️ Only call evaluateJavaScript on pages you control.
+// Never inject JS if the URL was provided by a user or an external API.
 webViewComponent.evaluateJavaScript("document.getElementById('status').textContent = 'AR connected'")
 
 // Receive messages from the page (the page calls window.lensStudioMessage(data))
@@ -175,6 +178,45 @@ In the web page's JavaScript:
 ```javascript
 // This calls back into the lens
 window.lensStudioMessage(JSON.stringify({ action: 'buttonClicked', id: 42 }))
+```
+
+---
+
+## Hardened Fetch Helper
+
+Combines timeout, status check, and safe JSON parsing in one reusable function:
+
+```typescript
+async function fetchJSON<T>(
+  internetModule: any,
+  url: string,
+  options: RequestInit = {},
+  timeoutMs = 10000
+): Promise<T | null> {
+  const timeoutPromise = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error('Request timed out')), timeoutMs)
+  )
+  try {
+    const response = await Promise.race([
+      internetModule.fetch(new Request(url, options)),
+      timeoutPromise
+    ]) as Response
+
+    if (!response.ok) {
+      print(`[Fetch] HTTP ${response.status} for ${url}`)
+      return null
+    }
+
+    return await response.json() as T
+  } catch (e) {
+    print('[Fetch] Error: ' + e)
+    return null
+  }
+}
+
+// Usage:
+const data = await fetchJSON<{ items: any[] }>(this.internetModule, 'https://api.example.com/items')
+if (data) displayItems(data.items)
 ```
 
 ---
@@ -206,6 +248,7 @@ async function getWithCache(url: string): Promise<any> {
   const now = getTime()
   if (cachedData && (now - cacheTime) < CACHE_TTL) return cachedData
   const r = await fetch(url)
+  if (!r.ok) throw new Error('HTTP ' + r.status)  // validate before parsing
   cachedData = await r.json()
   cacheTime = now
   return cachedData
@@ -224,12 +267,19 @@ function fetchWithTimeout(url: string, timeoutMs: number): Promise<Response> {
 
 ---
 
+## Permissions & Privacy
+
+Combining internet connectivity with camera, microphone, or location in the same lens triggers Snap's **Transparent Permission** system: the OS shows the user a consent dialog on launch, and the device LED blinks while sensitive data is captured. **Exception:** calls via the Remote Service Gateway (RSG) do not count as external connectivity — you can use RSG with camera/microphone without triggering the Transparent Permission prompt.
+
+---
+
 ## Common Gotchas
 
 - **InternetModule (Lens Studio 5.9+)**: Use `require('LensStudio:InternetModule')` and `internetModule.fetch(request)`; global `fetch` may not be available. Enable **Internet Access** in *Project Settings → Capabilities* or network calls fail.
 - **Request constructor**: Does not support taking another `Request` as input; use a URL string.
 - **Response bodies**: Use `response.bytes()`, `response.text()`, `response.json()` — `body`, `blob`, `arrayBuffer` are not supported.
-- **CORS**: Web APIs must allow Spectacles' origin. **HTTPS** required for publishable lenses; HTTP requires Experimental APIs.
+- **Always check `response.ok`** before calling `.json()` or `.text()` — a non-200 response body may not be valid JSON and will throw.
+- **CORS**: Web APIs must allow Spectacles' origin. **HTTPS** required for publishable lenses; HTTP requires Experimental APIs and cannot be published.
 - **Fetch does not time out automatically** — wrap with `Promise.race` if your backend might be slow.
 - **Web View performance**: Large or animation-heavy web pages can hurt framerate. Prefer static or lightly interactive pages.
 - **Multipart uploads**: do not set `Content-Type` manually when using `FormData` — fetch sets it with the correct `boundary`.

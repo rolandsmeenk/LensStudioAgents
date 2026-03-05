@@ -102,6 +102,7 @@ export class VoiceInput extends BaseScriptComponent {
 
     session.onError.add((error) => {
       print('ASR error: ' + error)
+      session.stop()  // also stop on error to free the microphone
     })
   }
 }
@@ -187,9 +188,19 @@ Key design notes:
 interface Message { role: 'user' | 'assistant'; content: string }
 
 const history: Message[] = []
+const MAX_HISTORY = 20   // trim to avoid leaking earlier turns and hitting size limits
+const MAX_TOOL_CALLS = 10 // hard cap to prevent runaway loops
+let toolCallCount = 0
 
 async function chat(userText: string): Promise<void> {
+  if (toolCallCount++ >= MAX_TOOL_CALLS) {
+    displayText('Reached iteration limit')
+    return
+  }
+
   history.push({ role: 'user', content: userText })
+  // Keep only the last MAX_HISTORY messages
+  if (history.length > MAX_HISTORY) history.splice(0, history.length - MAX_HISTORY)
 
   const request = RemoteServiceHttpRequest.create()
   request.endpoint = 'my-llm'
@@ -234,12 +245,21 @@ From the **Crop** sample — pinch to define a region, send to vision model:
 
 ---
 
+## Permissions & Privacy
+
+Combining camera, microphone, or location with **internet connectivity** triggers Snap's **Transparent Permission** system: the OS shows a consent dialog on launch and the device LED blinks during capture.
+
+**Important exception:** Calls via the **Remote Service Gateway (RSG)** do not count as external connectivity. You can freely combine camera or microphone with RSG (LLMs, ASR, TTS, vision APIs) in a published lens without triggering the Transparent Permission prompt. This is the recommended pattern for AI-powered lenses.
+
+---
+
 ## Common Gotchas
 
 - **RSG is not available in the Lens Studio simulator** — test AI features on-device.
 - **Large base64 payloads** can hit RSG body-size limits; resize or downsample images before encoding.
-- **ASR leaves the microphone open** until you call `session.stop()` — important for privacy and battery.
+- **ASR leaves the microphone open** until you call `session.stop()` — always stop on both `isFinal` and `onError` to protect privacy and battery.
 - **ASR accuracy modes**: `Balanced` is faster; `High` gives better results for commands with technical vocabulary.
 - **TTS and game audio** share a mixer — prioritise with `AudioMixerChannel`.
 - Use **`async/await`** to avoid callback pyramids in complex agentic loops.
 - Always handle `response.statusCode !== 200` cases — network errors are common on Spectacles (the device moves around).
+- **Agentic loops**: always enforce a hard iteration cap in code (not just in comments) and trim conversation history to avoid leaking earlier sensitive user input.

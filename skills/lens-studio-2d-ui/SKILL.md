@@ -131,6 +131,23 @@ textComponent.textFill.color = new vec4(1, 1, 1, 1)  // white
 textComponent.text = '<b>Bold</b> and <i>italic</i>'
 ```
 
+### Setting text from untrusted sources (network data, user content)
+
+Never assign network or user-provided strings directly — unclosed HTML tags crash the renderer. Strip tags first:
+
+```typescript
+// Strips HTML-style tags and caps length before displaying untrusted content
+function safeSetText(component: Text, value: string, maxLength = 200): void {
+  const stripped = (value ?? '')
+    .slice(0, maxLength)        // cap length
+    .replace(/<[^>]*>/g, '')   // strip all tag-like sequences
+  component.text = stripped
+}
+
+// Usage — safe even if serverName contains malicious tags:
+safeSetText(textComponent, serverName)
+```
+
 ---
 
 ## Touch Input
@@ -311,3 +328,4 @@ class UndoStack {
 - **`touchComponent.addMTouchStartCallback` vs `TapEvent`**: `TapEvent` fires only on completed, non-moved taps; `TouchComponent` callbacks fire immediately on contact — use `TouchComponent` for drawing and drag interactions.
 - **Pivot point** affects how a ScreenTransform rotates and scales — a pivot of `(0, 0)` rotates around the centre, `(-1, -1)` around the bottom-left corner.
 - **Text HTML tags**: Lens Studio supports `<b>`, `<i>`, `<color=#rrggbbaa>`, `<size=N>` tags in `textComponent.text`. Non-closing tags crash the text renderer.
+- **Never set `textComponent.text` to untrusted string content directly** (e.g., data from the network or from Dynamic Response). Untrusted strings containing unclosed HTML tags will crash the renderer; strip or escape them first.

@@ -180,7 +180,9 @@ const dynamicResponse = this.sceneObject.getComponent('Component.DynamicResponse
 
 dynamicResponse.onResponderActivated.add(() => {
   // We are in Responder mode — read data the Poster embedded
-  const posterData: string = dynamicResponse.getPosterData('myKey')
+  // Always sanitise: Poster data is a plain string with no schema enforcement
+  const raw: string = dynamicResponse.getPosterData('myKey') ?? ''
+  const posterData = raw.slice(0, 256)  // cap length; validate further if driving logic
   print('Poster sent: ' + posterData)
 
   // Show the Responder-specific UI
@@ -246,6 +248,8 @@ leaderboardModule.getLeaderboard(options,
 - **`UserContextSystem` requires user consent** — if the user hasn't granted the Bitmoji permission, `hasBitmoji()` returns `false`. Always check before requesting.
 - **Bitmoji loading is async** — always update the UI in the `remoteMediaModule` callback, not immediately after calling `requestBitmoji3DResource`.
 - **`getFriends()` list size** is platform-limited — don't assume you can get all friends; design for partial lists.
+- **Dynamic Response Poster data is an unvalidated string.** Always sanitise it (cap length, check format) before using it to drive UI or game logic — a crafted Snap could inject arbitrary content.
 - **Dynamic Response tappable areas**: if you add tappable areas in the inspector, the platform's Call-to-Action (CTA) button is replaced by the tappable shimmer on the received Snap.
 - **Dynamic Response is not available in the Lens Studio simulator** — test Poster/Responder flow via Snapchat on two devices.
+- **Leaderboard scores are submitted from the client.** There is no server-side score validation — for competitive lenses, use a Snap Cloud Edge Function to verify scores before writing to the leaderboard.
 - **Leaderboard names are global** to the lens — two lenses with the same name string share the same leaderboard. Use unique names.

@@ -34,6 +34,8 @@ Companion Web App ──────────► Same Supabase project
    > Without this, all `fetch()` calls will silently fail on-device.
 4. Store the URL and key as constants in your script.
 
+> **⚠️ Security — anon key is not secret:** The anon key is compiled into the lens and can be extracted by anyone who decompiles it. Anyone who obtains the key can read and write data while RLS is disabled. Always enable RLS (see below). For production lenses, proxy all database access through a Snap Cloud **Edge Function** so the key never leaves the server.
+
 ---
 
 ## Database (Postgres via REST)
@@ -135,10 +137,13 @@ function connect(): void {
 }
 
 function scheduleReconnect(): void {
+  if (!retryCount) retryCount = 0
+  if (retryCount++ >= 5) { print('[Cloud] WebSocket gave up after 5 retries'); return }
   const retry = this.createEvent('DelayedCallbackEvent')
   retry.bind(() => connect())
   retry.reset(3) // retry after 3 seconds
 }
+let retryCount = 0
 ```
 
 ---
@@ -185,23 +190,97 @@ async function callFunction(fnName: string, payload: object): Promise<any> {
 }
 ```
 
+### Recommended production pattern: Edge Function as auth proxy
+
+For any lens you share publicly, route database access through an Edge Function instead of calling the REST API directly from the lens:
+
+```
+Lens  →  Edge Function (holds service-role key)  →  Supabase DB
+```
+
+The Edge Function can validate inputs, enforce business rules, and return only the data the lens needs — the raw DB key never leaves the server. The lens only needs the anon key to call the Edge Function, and with RLS that key has no direct table access.
+
+### Lens-side call (TypeScript)
+
+```typescript
+// The lens calls the Edge Function — it never touches the DB directly
+async function addMessageSecure(content: string): Promise<void> {
+  const r = await fetch(`${PROJECT_URL}/functions/v1/add-message`, {
+    method: 'POST',
+    headers: {
+      'apikey': API_KEY,         // anon key only — Edge Function validates and writes
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ content })
+  })
+  if (!r.ok) print('Error: ' + r.status)
+}
+```
+
+### Edge Function (Deno TypeScript, runs on Snap Cloud)
+
+```typescript
+// supabase/functions/add-message/index.ts
+import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+Deno.serve(async (req) => {
+  const { content } = await req.json()
+
+  // Validate inputs server-side before writing
+  if (!content || typeof content !== 'string' || content.length > 500) {
+    return new Response('Invalid input', { status: 400 })
+  }
+
+  // Use the service-role key here — it never leaves the server
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!  // NOT the anon key
+  )
+
+  const { error } = await supabase
+    .from('messages')
+    .insert({ content, author: 'spectacles-user' })
+
+  if (error) return new Response(error.message, { status: 500 })
+  return new Response('OK', { status: 200 })
+})
+```
+
 ---
 
 ## Row-Level Security (RLS)
 
-Supabase supports RLS policies to restrict who can read/write which rows:
-- Enable RLS on your tables.
-- Write a policy: `USING (true)` for public reads, `WITH CHECK (true)` for authenticated inserts.
-- For user-specific data, pass a JWT from the lens (requires Snap's auth integration).
+Supabase supports RLS policies to restrict who can read/write which rows. **Always enable RLS on every table before sharing a lens.**
 
-Without RLS, any holder of the anon key can read and write all data — fine for prototypes, not for production.
+```sql
+-- Minimal public read (ok for leaderboards / shared content)
+CREATE POLICY "public_read" ON messages
+  FOR SELECT USING (true);
+
+-- User-scoped write (requires Snap auth JWT)
+CREATE POLICY "owner_insert" ON messages
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Avoid USING (true) on INSERT/UPDATE/DELETE — this lets any key holder modify all data
+```
+
+> **⚠️ `USING (true)` on writes is not protection.** It means any holder of the anon key can mutate every row. Use it only for genuinely public read-only data, and never on write operations in a shared lens.
+
+For user-specific data, pass a JWT from the lens (requires Snap's auth integration), or use the Edge Function proxy pattern.
+
+---
+
+## Permissions & Privacy
+
+Combining internet access with camera, microphone, or location triggers Snap's **Transparent Permission** system: when the lens launches, the OS shows the user a dialog listing which sensitive data the lens accesses, and the device LED blinks while capture is active. Plan your UX around this prompt — it will appear before the lens starts.
 
 ---
 
 ## Common Gotchas
 
 - **Enable Internet Access capability** first — *Project Settings → Capabilities → Internet Access*. Without it, fetch silently fails on-device.
-- **The anon key is not secret** — it's embedded in the lens. Use RLS policies to limit exposure.
+- **The anon key is embedded in the lens.** Anyone can extract it from a published lens. Always enable RLS and consider the Edge Function proxy pattern for production.
+- **The Supabase Realtime WebSocket URL requires the anon key** (`?apikey=...`) — this is a Supabase protocol requirement, not something you can avoid. Mitigate exposure with RLS: even if someone extracts the key, RLS limits what they can read or write.
 - **WebSocket `postgres_changes` format**: the payload must include `{ config: { postgres_changes: [...] } }` in the `phx_join` message — a simpler topic-only join will not receive row change events.
 - **WebSocket connections drop** when Spectacles goes to sleep — implement a reconnect loop with `DelayedCallbackEvent`.
 - **Large payloads** in Realtime subscriptions can slow the lens — subscribe only to the columns you need.

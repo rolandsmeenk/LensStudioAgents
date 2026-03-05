@@ -93,9 +93,18 @@ this.realtimeStore.putBool('isPlayer1Turn', true)
 // Read
 const state = this.realtimeStore.getString('gameState')
 
-// React to remote changes
+// React to remote changes — always validate incoming values
 this.realtimeStore.onValueChanged.add((key: string, value: any) => {
-  if (key === 'gameState') updateGameUI(value as string)
+  if (key === 'gameState') {
+    // Validate before acting — any client can write to the store
+    if (typeof value !== 'string') return
+    updateGameUI(value as string)
+  }
+  if (key === 'player1Score') {
+    const score = Number(value)
+    if (!isFinite(score) || score < 0 || score > 9999) return  // reject invalid values
+    updateScoreboard(score)
+  }
 })
 
 // Restrict a key so only a specific user can write it
@@ -174,6 +183,8 @@ lensCloud.get('sharedNote', 'public_all', (result) => {
 })
 ```
 
+> **⚠️ `public_all` is visible to every lens.** Any lens can read data stored at this access level. Use `private_user` for anything user-specific and `public_user` for data you intend to share only within your own lens.
+
 Access levels: `private_user`, `public_user`, `public_all`.
 
 ---
@@ -183,6 +194,7 @@ Access levels: `private_user`, `public_user`, `public_all`.
 - **`joinOrCreateSession`** is the recommended entry point — it handles "already in session" gracefully.
 - **`session.localUser`** is the correct property for the local user (not `activeUser`).
 - **Last-write-wins** for store conflicts — use Snap Cloud edge functions (see `spectacles-cloud`) for authoritative server-side decisions.
+- **Validate incoming RealtimeStore values** before acting on them — any connected client can write any value. Always check type and range.
 - **RealtimeStore cap**: 512 bytes per key — store small values (indices, IDs, flags), not large payloads.
 - **Design for latency** — events can arrive late or out of order; never assume instant receipt.
 - **Sync Kit version** must match your Lens Studio version — re-import after upgrading.

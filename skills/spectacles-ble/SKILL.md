@@ -102,6 +102,10 @@ function subscribeToNotifications(char: BleCharacteristic): void {
 }
 
 function parseIncomingData(data: Uint8Array): void {
+  if (data.byteLength < 12) {
+    print('[BLE] Unexpected packet length: ' + data.byteLength)
+    return
+  }
   const view = new DataView(data.buffer)
   const roll  = view.getFloat32(0, true)  // bytes 0–3, little-endian
   const pitch = view.getFloat32(4, true)  // bytes 4–7
@@ -220,9 +224,17 @@ mobileKit.sendMessage(JSON.stringify({ event: 'scoreUpdate', score: 42 }))
 ## Connection Lifecycle
 
 ```typescript
+let retryCount = 0
+const MAX_RETRIES = 5
+
 peripheral.onDisconnected.add(() => {
   print('Device disconnected — retrying in 3s')
   hideConnectedUI()
+  if (retryCount >= MAX_RETRIES) {
+    print('[BLE] Max retries reached. Stopping reconnect.')
+    return
+  }
+  retryCount++
   const retry = this.createEvent('DelayedCallbackEvent')
   retry.bind(() => connectToPeripheral(peripheral))
   retry.reset(3)
@@ -233,9 +245,11 @@ peripheral.onDisconnected.add(() => {
 
 ## Common Gotchas
 
-- **Enable via**: *Project Settings → Spectacles → Experimental APIs → Bluetooth Low Energy*.
+- **Enable via**: *Project Settings → Spectacles → Experimental APIs → Bluetooth Low Energy*. **Lenses using Experimental APIs cannot be published** to a wider audience — BLE is development and sideloading only.
 - **Scan drains battery** — always call `stopScan()` once you find your target device.
 - **Service UUID must match exactly** between lens and peripheral (case-insensitive, dashes required).
 - **Data endianness**: Arduino's `memcpy` and `DataView.setFloat32` must agree on byte order (`true` = little-endian on most MCUs).
+- **Always check packet length** before reading with `DataView` — a peripheral sending fewer bytes than expected causes silent out-of-bounds reads.
 - **Default MTU is 20 bytes** — negotiate with `requestMtu()` for larger payloads; expect up to 3 bytes of ATT overhead.
+- **Cap the reconnect loop** to avoid infinite retries against a device that keeps dropping (e.g., a spoofed peripheral).
 - **iOS background mode**: if building a companion mobile app, enable CoreBluetooth background mode in the iOS app's entitlements.

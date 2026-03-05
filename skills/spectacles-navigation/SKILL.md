@@ -213,6 +213,7 @@ if (dist < ADVANCE_THRESHOLD) {
 
 - **Custom Locations require a scan on-device** — you cannot create an anchor programmatically or in the desktop simulator.
 - **GPS accuracy on Spectacles** is typically 3–10 metres; don't rely on it for sub-metre accuracy.
+- **Location capability triggers Transparent Permission.** When combined with internet access (e.g., Mapbox map tiles), the OS shows the user a consent dialog on launch listing which data the lens accesses.
 - **`LocalisationStatus.LocalisationLost`** is distinct from `NotLocalised` — it means the user was localised but the tracking was disrupted. Prompt them to look around the scanned area.
 - **`LocalisationStatus.Unavailable`** means the OS or device doesn't support Custom Locations — handle gracefully.
 - **Location capability**: always enable *Project Settings → Capabilities → Location* before using the GeoLocation API, or the module will be undefined.
