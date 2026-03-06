@@ -25,6 +25,9 @@ Use this table to decide what skill to use when starting a task:
 | **lens-studio-face-tracking**        | When building face lenses — face mesh/effects, expression-driven animations (mouth open, blink), 2D/3D face attachments, eye tracking, upper body mesh, or selfie occluders. |
 | **lens-studio-user-context**         | When a lens needs the current user's name/Bitmoji, accesses friends' data, implements Dynamic Response (Poster/Responder), or adds a Leaderboard. |
 | **lens-studio-world-query**          | When detecting real-world surfaces (WorldQueryModule hit tests), semantic surface classification (floor/wall/ceiling), raycasting against scene colliders, or adding a leaderboard. |
+| **lens-studio-vfx**                  | When building particle effects (VFX Graph), passing runtime data to particle assets, or spawning visual effects from script. |
+| **lens-studio-materials-shaders**    | When cloning materials, modifying shader parameters via script, or setting up complex rendering pipelines and post-processing. |
+| **lens-studio-2d-ui**                | When building screen-space overlays, handling 2D touch events, or using ScreenTransform for responsive UI layouts. |
 | **spectacles-lens-essentials**       | When implementing interaction (SIK or raw GestureModule pinch/targeting/grab), physics, animations (LSTween), materials, spatial anchors, persistent local storage, or spatial images. |
 | **spectacles-navigation**            | When anchoring AR to a real location (Custom Locations), showing a map, guiding the user with turn-by-turn directions, or querying nearby places. |
 | **spectacles-connected-lenses**      | When multiple Spectacles users need to share AR objects or state — Sync Kit, RealtimeStore, NetworkEventSystem, EntityOwnership, turn-based or physics multiplayer. |
@@ -35,7 +38,15 @@ Use this table to decide what skill to use when starting a task:
 | **spectacles-snapml**                | When running a custom ML model on-device (TFLite/ONNX) — MLComponent setup, tensor parsing, SSD/YOLO detection, object tracking, physics integration. |
 | **spectacles-ui-kit**                | When generating menus, grids, dialogs, or galleries programmatically using `SpectaclesUIKit.lspkg` instead of manually assembling UI prefabs. |
 | **spectacles-commerce**              | When implementing in-app purchases (IAP) for non-consumable digital items using `CommerceKitModule` (checking ownership, launching buy flow). |
-| **spectacles-auth**                  | When an API requires user login via OAuth2, managing access/refresh tokens securely with PKCE, and handling `DeepLinkModule` redirect callbacks. |
+| **spectacles-auth**              | When an API requires user login via OAuth2, managing access/refresh tokens securely with PKCE, and handling `DeepLinkModule` redirect callbacks. |
+| **spectacles-spatial-persistence** | When saving or restoring 3D content physical locations across sessions using `AnchorModule` world anchors. |
+| **lens-studio-camera-texture**     | When programmatically accessing the live camera feed for materials, shaders, or cropping for ML processors. |
+| **lens-studio-marker-tracking**   | When using image markers but wanting the content to stay physically locked in the room even if the marker is hidden. |
+| **lens-studio-instantiation**     | When spawning many prefabs programmatically into mathematical patterns like 3D grids or spheres at runtime. |
+| **lens-studio-snap-decorators**   | When wanting to use TypeScript decorators (`@bindUpdateEvent`, `@depends`) to clean up boilerplate and decouple event logic. |
+| **lens-studio-interactive-solvers** | When needing proximity triggers (enter/exit zones) or "lazy following" (tethering) behaviors for AR objects. |
+| **spectacles-mocopi-integration** | When integrating Sony mocopi motion capture hardware to drive full-body avatars in real-time AR. |
+| **lens-studio-volumetric-drawing** | When rendering smooth 3D tubes or splines for drawing apps, visualizations, or complex spatial pathfinding. |
 
 ### PROJECT
 

@@ -147,6 +147,62 @@ OAuth2 authentication flows — Implementing PKCE Authorization Code and Implici
 npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill spectacles-auth
 ```
 
+#### spectacles-spatial-persistence
+Cross-session content persistence — Using `AnchorModule` to create, save, and restore World Anchors. Includes `AnchorSession` management, `onAnchorNearby` callbacks, and `anchor.state` validation for room-scale AR persistence.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill spectacles-spatial-persistence
+```
+
+#### lens-studio-camera-texture
+Programmatic camera access — Intercepting raw background feeds (`Default_Color` vs `Right_Color`) using `CameraModule`. Covers `CameraRequest` configuration, texture routing to materials, and `CropTextureProvider` patterns.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-camera-texture
+```
+
+#### lens-studio-marker-tracking
+Hybrid Image/World tracking — Implementing the 'World-Locked Marker' pattern to pin 3D content to physical markers while allowing the camera to move away. Uses `MarkerTrackingComponent` with `DeviceTrackingMode.World` and re-parenting logic.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-marker-tracking
+```
+
+#### lens-studio-instantiation
+Dynamic object spawning — Mathematical layout recipes for programmatically instantiating prefabs into 3D Grids, Spheres, and Perimeters at runtime. Optimised for voxel structures and data visualizations.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-instantiation
+```
+
+#### lens-studio-snap-decorators
+Declarative scripting — Using TypeScript decorators for lifecycle event binding (`@bindUpdateEvent`, `@bindDestroyEvent`) and dependency injection (`@depends`, `@provider`). Simplifies component logic and reduces boilerplate.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-snap-decorators
+```
+
+#### lens-studio-interactive-solvers
+Proximity and movement logic — `DistanceEventsTS` for enter/exit/percent triggers and `TetherTS` for "lazy follow" behaviors. Includes smooth lerping and distance-based thresholds.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-interactive-solvers
+```
+
+#### spectacles-mocopi-integration
+Motion Capture — Connecting Sony mocopi hardware to Spectacles using WebSockets. Handles real-time skeletal definition mapping (`SkeletonDefinition`) and per-frame joint rotation updates (`FrameData`).
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill spectacles-mocopi-integration
+```
+
+#### lens-studio-volumetric-drawing
+3D Geometry & Splines — Creating high-quality volumetric tubes using `VolumetricLine`. Features Catmull-Rom spline interpolation, configurable geometry detail, and runtime gizmos for spatial debugging.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill lens-studio-volumetric-drawing
+```
+
 ---
 
 ## Documentation
