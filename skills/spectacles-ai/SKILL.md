@@ -263,3 +263,10 @@ Combining camera, microphone, or location with **internet connectivity** trigger
 - Use **`async/await`** to avoid callback pyramids in complex agentic loops.
 - Always handle `response.statusCode !== 200` cases — network errors are common on Spectacles (the device moves around).
 - **Agentic loops**: always enforce a hard iteration cap in code (not just in comments) and trim conversation history to avoid leaking earlier sensitive user input.
+
+---
+
+## Reference Examples
+*   [APIKeyHint.ts](references/APIKeyHint.md) - A standard pattern for providing API key context.
+*   [ModelGenBridge.ts](references/ModelGenBridge.md) - Example usage of handling Remote Service module prompts.
+

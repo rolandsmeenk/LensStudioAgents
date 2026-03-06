@@ -253,3 +253,9 @@ peripheral.onDisconnected.add(() => {
 - **Default MTU is 20 bytes** — negotiate with `requestMtu()` for larger payloads; expect up to 3 bytes of ATT overhead.
 - **Cap the reconnect loop** to avoid infinite retries against a device that keeps dropping (e.g., a spoofed peripheral).
 - **iOS background mode**: if building a companion mobile app, enable CoreBluetooth background mode in the iOS app's entitlements.
+
+---
+
+## Reference Examples
+*   [BLEArduino.ts](references/BLEArduino.md) - Shows scanning, connecting, and reading/writing GATT UUIDs from a generic embedded device.
+

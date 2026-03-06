@@ -106,3 +106,4 @@ async function uploadCameraFrame(
   return `${PROJECT_URL}/storage/v1/object/public/${bucketName}/${path}`
 }
 ```
+

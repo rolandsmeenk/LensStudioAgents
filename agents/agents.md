@@ -33,6 +33,9 @@ Use this table to decide what skill to use when starting a task:
 | **spectacles-ai**                    | When calling an LLM, streaming AI tokens, sending camera frames to a cloud vision model, implementing voice-in/voice-out (ASR + TTS), or building a multi-step agentic loop via RSG. |
 | **spectacles-ble**                   | When connecting to an Arduino, game controller, BLE sensor, or a companion mobile app — scanning, connecting, reading/writing characteristics, DataView byte parsing. |
 | **spectacles-snapml**                | When running a custom ML model on-device (TFLite/ONNX) — MLComponent setup, tensor parsing, SSD/YOLO detection, object tracking, physics integration. |
+| **spectacles-ui-kit**                | When generating menus, grids, dialogs, or galleries programmatically using `SpectaclesUIKit.lspkg` instead of manually assembling UI prefabs. |
+| **spectacles-commerce**              | When implementing in-app purchases (IAP) for non-consumable digital items using `CommerceKitModule` (checking ownership, launching buy flow). |
+| **spectacles-auth**                  | When an API requires user login via OAuth2, managing access/refresh tokens securely with PKCE, and handling `DeepLinkModule` redirect callbacks. |
 
 ### PROJECT
 

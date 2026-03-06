@@ -93,3 +93,4 @@ lensCloud.get('highScore', 'public_all', (result) => {
   if (result.success) print('Persisted score: ' + JSON.parse(result.value))
 })
 ```
+

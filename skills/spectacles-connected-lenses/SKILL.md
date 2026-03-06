@@ -198,3 +198,9 @@ Access levels: `private_user`, `public_user`, `public_all`.
 - **RealtimeStore cap**: 512 bytes per key — store small values (indices, IDs, flags), not large payloads.
 - **Design for latency** — events can arrive late or out of order; never assume instant receipt.
 - **Sync Kit version** must match your Lens Studio version — re-import after upgrading.
+
+---
+
+## Reference Examples
+*   [SyncEntityExample.ts](references/SyncEntityExample.md) - Official reference on setting up a generic `SyncEntity`.
+

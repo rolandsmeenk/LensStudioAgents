@@ -101,3 +101,4 @@ locationModule.onLocalisationUpdate.add((status) => {
 ```
 
 > **Scanning coverage**: the location must be scanned from multiple directions and lighting conditions. A scan covering only one entrance angle will fail for users approaching from other directions.
+

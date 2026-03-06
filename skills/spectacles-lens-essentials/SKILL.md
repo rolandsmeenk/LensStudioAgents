@@ -361,3 +361,10 @@ From the [Spatial Design](https://developers.snap.com/spectacles/best-practices/
 - **`getDeltaTime()`** is your friend for frame-rate-independent motion.
 - **Spatial anchors** require the user to rescan the area if they move far away; give the user a visual "anchor not found" state.
 - **Audio latency**: use pre-loaded `AudioTrack` assets rather than loading from URL for low-latency sound effects.
+
+---
+
+## Reference Examples
+*   [HandAttacher.ts](references/HandAttacher.md) - Complete object joint binding script with SIK `HandInputData` and interpolation.
+*   [Example_ChainTween.ts](references/Example_ChainTween.md) - Demonstrates advanced `LSTween` chaining and API constraints.
+

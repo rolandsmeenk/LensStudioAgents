@@ -103,3 +103,4 @@ function smoothBox(raw: { x: number; y: number; w: number; h: number }) {
   return { x: smoothX, y: smoothY, w: smoothW, h: smoothH }
 }
 ```
+

@@ -77,3 +77,4 @@ ev.bind(() => {
 })
 ev.reset(5) // destroy after 5 seconds
 ```
+

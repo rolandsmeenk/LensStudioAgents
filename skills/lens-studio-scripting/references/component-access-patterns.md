@@ -102,3 +102,4 @@ processData<T>(data: T): { processed: T; timestamp: number } {
 const result = componentA.processData<string>('hello')
 print(result.processed) // 'hello'
 ```
+

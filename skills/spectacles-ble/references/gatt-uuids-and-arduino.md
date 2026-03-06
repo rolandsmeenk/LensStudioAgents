@@ -105,3 +105,4 @@ await conn.connect()
 conn.onMessage((msg) => { /* same JSON protocol */ })
 conn.sendMessage(JSON.stringify({ type: 'ACK', payload: {} }))
 ```
+

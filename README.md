@@ -126,6 +126,27 @@ On-device machine learning — MLComponent configuration, supported model format
 npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill spectacles-snapml
 ```
 
+#### spectacles-ui-kit
+Programmatic UI generation — `Frame`, `GridLayout`, and Button creation (`RectangleButton`, `CapsuleButton`, `RoundButton`) without prefabs using the `SpectaclesUIKit.lspkg`. Includes lifecycle (createComponent -> initialize -> sizing).
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill spectacles-ui-kit
+```
+
+#### spectacles-commerce
+In-App Purchases (Closed Beta) — Setting up `CommerceKitModule`, formatting prices in cents, checking ownership history (`queryPurchaseHistory`), launching the swipe-to-buy flow (`launchPurchaseFlow`), and verifying consumption (`acknowledgePurchase`).
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill spectacles-commerce
+```
+
+#### spectacles-auth
+OAuth2 authentication flows — Implementing PKCE Authorization Code and Implicit flows in lenses using `DeepLinkModule` to catch redirects, `InternetModule` for token swaps, and managing secure access tokens using `GeneralDataStore`.
+
+```bash
+npx skills add https://github.com/rolandsmeenk/LensStudioAgents --skill spectacles-auth
+```
+
 ---
 
 ## Documentation

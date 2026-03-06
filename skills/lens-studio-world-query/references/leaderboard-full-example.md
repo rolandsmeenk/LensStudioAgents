@@ -95,3 +95,4 @@ export class LeaderboardExample extends BaseScriptComponent {
 - `ttlSeconds = 0` → board never expires (fills quota). Use e.g. `86400 * 7` for weekly.
 - `Descending` = higher score is rank 1. Use `Ascending` for best-time or golf-style scores.
 - `isNull(userInfo)` — use Lens Studio's `isNull()` helper, not `=== null`, for JS-bridged objects.
+

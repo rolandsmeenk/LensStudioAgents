@@ -209,3 +209,9 @@ tableColliderObject.getTransform().setWorldScale(detectedBox.size)
 - **Desktop simulator uses CPU** — always test performance on-device (Spectacles) for realistic NPU numbers.
 - **Camera access permission** must be enabled in Project Settings for ML to work on camera frames.
 - **ObjectTracking3D requires an initial detection** as a seed — it won't track without one.
+
+---
+
+## Reference Examples
+*   [PinholeCameraModel.ts](references/PinholeCameraModel.md) - Useful for spatializing screen coordinates.
+

@@ -220,3 +220,9 @@ if (dist < ADVANCE_THRESHOLD) {
 - **Compass heading drifts** — apply a complementary filter combining compass + IMU data for smoother arrow rotation.
 - **Map tiles require internet** — ensure the lens has internet access enabled, and show a loading state while tiles download.
 - **Scan coverage matters** — a poorly scanned Custom Location will fail to localise; the scan mesh should cover the full area visible from all entrances.
+
+---
+
+## Reference Examples
+*   [GeoLocationPlace.ts](references/GeoLocationPlace.md) - Reference for dealing with exact GPS coordinates and map projections.
+
