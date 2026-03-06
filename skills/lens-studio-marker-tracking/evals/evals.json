@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-marker-tracking",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement a 'World-Locked Marker' script that detects an image marker, captures its world position, and luego detaches its child content so it stays fixed in space even if the marker moves away.",
+            "expected_output": "A script using MarkerTrackingComponent and re-parenting logic.",
+            "expectations": [
+                "Uses @input Component.MarkerTrackingComponent",
+                "Listens for markerTracking.onMarkerFound",
+                "Inside callback, captures content.getTransform().getWorldTransform()",
+                "Sets content.setParent(null) or parents to a world-root object",
+                "Optionally calls markerTracking.enabled = false after finding to save power"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Create a logic that enables a 3D model only when a specific marker ID (e.g., 'marker_01') is being tracked.",
+            "expected_output": "A script checking marker ID and tracking state.",
+            "expectations": [
+                "Checks markerTracking.marker.markerId or similar identity property",
+                "Registers listeners for both onMarkerFound and onMarkerLost",
+                "Sets model.enabled = true on found, false on lost"
+            ]
+        }
+    ]
+}

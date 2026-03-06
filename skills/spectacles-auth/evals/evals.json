@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-auth",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement an OAuth2 login flow using AuthKit that opens a browser for the user to log in to an external service.",
+            "expected_output": "A script using AuthKitModule and PKCE for code exchange.",
+            "expectations": [
+                "Uses @input Asset.AuthKitModule",
+                "Calls authKit.createAuthSession()",
+                "Uses the system browser to launch the login URL",
+                "Includes deep link redirect handling (.onDeepLinkReceived)"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a logic that swaps an authorization code for an access token and stores it securely in the GeneralDataStore.",
+            "expected_output": "A script using InternetModule to POST to a token endpoint and saving the result.",
+            "expectations": [
+                "Calls internetModule.post(tokenUrl, { code, client_id, ... }, callback)",
+                "Uses global.generalDataStore.putString('access_token', token)",
+                "Includes JSON.parse to extract the token from the server response",
+                "Handles token expiration or refresh logic patterns"
+            ]
+        }
+    ]
+}

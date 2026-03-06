@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-ble",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement a BLE scanner that logs the device name of any peripheral advertising a service with UUID '0000180d-0000-1000-8000-00805f9b34fb'.",
+            "expected_output": "A script using BleModule to scan for heart rate monitors.",
+            "expectations": [
+                "Uses global.bleModule or @input Asset.BleModule",
+                "Calls ble.requestDevice({ filters: [{ services: ['...'] }] }, callback)",
+                "Inside callback, logs device.name or device.id",
+                "Handles user permission or device-not-found cases"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a script that connects to a BLE device and subscribes to notifications from a heart rate characteristic.",
+            "expected_output": "A script managing BLE connection and characteristic subscription.",
+            "expectations": [
+                "Calls device.gatt.connect(callback)",
+                "Uses service.getCharacteristic(uuid) to find the target",
+                "Calls characteristic.startNotifications(callback)",
+                "Parses the incoming DataView buffer (e.g., value.getUint8(1))"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I call a large language model (LLM) in Lens Studio?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use a Remote Service Gateway (RSG) for AI.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to send camera frames to a vision model (OpenAI/Claude)?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to implement text-to-speech (TTS) on Spectacles?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use automatic speech recognition (ASR) with specific languages?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle token-by-token streaming AI responses?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set up an AI agentic tool-call loop in my lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use Snap Cloud for database queries?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate the dot product of two vectors?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect simple pinch gestures?",
+        "should_trigger": false
+    }
+]

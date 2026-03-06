@@ -1,0 +1,26 @@
+{
+    "skill_name": "lens-studio-snap-decorators",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Rewrite a standard Lens Studio component to use @bindUpdateEvent for its per-frame logic and @depends for its interactor dependency.",
+            "expected_output": "A TypeScript class using Snap Decorators to replace boilerplate event listeners.",
+            "expectations": [
+                "Uses @bindUpdateEvent() above a method",
+                "Uses @depends(Asset.Interactor) or similar for dependency injection",
+                "Extends the appropriate base class if required by the decorator library",
+                "Removes manual this.createEvent('UpdateEvent') calls from Awake"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a lazy calculation of a player's power level using the @memo decorator so it only re-evaluates when dependencies change.",
+            "expected_output": "A script using @memo to cache a computed property.",
+            "expectations": [
+                "Uses @memo() above a getter or method",
+                "Includes complex math/logic that is being cached",
+                "Correctly identifies the dependency array for the memoization"
+            ]
+        }
+    ]
+}

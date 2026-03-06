@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How do I anchor 3D content to a physical image marker?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the 'World-Locked Marker' pattern in Lens Studio.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use MarkerTrackingComponent with DeviceTrackingMode.World?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I handle the onMarkerFound callback to detach an object from its parent?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to preserve world transform when re-parenting a tracked object.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to create a multi-marker tracking experience where content stays physically locked?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to save a world anchor across sessions?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate the dot product of two vectors?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    }
+]

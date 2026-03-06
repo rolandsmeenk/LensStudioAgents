@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I make a GET request to an API in Lens Studio?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to post JSON data to a server from Spectacles?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I embed a web page using the WebView component?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to handle binary responses in Fetch.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle timeout patterns in networking?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to send messaging from a WebView to a lens script?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle CORS and HTTPS requirements for networking?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I load a 3D model from a local prefab?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a user's smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on walls?",
+        "should_trigger": false
+    }
+]

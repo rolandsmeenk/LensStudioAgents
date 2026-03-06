@@ -1,0 +1,46 @@
+[
+    {
+        "query": "How to set up face tracking in a phone lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I attach a hat to the user's head?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to detect if a user is blinking or smiling.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to get the 3D position of face landmarks?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use a Face Mesh with custom UV textures?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to track multiple faces in one scene?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use eye tracking to see where the user is looking?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to enable retouch or beauty filters in a lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use the Spectacles interaction kit?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect the distance to the floor?",
+        "should_trigger": false
+    },
+    {
+        "query": "Explain how to use the networking module.",
+        "should_trigger": false
+    }
+]

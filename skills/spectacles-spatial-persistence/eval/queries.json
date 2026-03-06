@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I save an object's position so it persists across different sessions?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use World Anchors on Spectacles.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use the AnchorModule to create and store a spatial anchor?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I handle the onAnchorNearby callback to restore content?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the difference between createWorldAnchor and saveAnchor.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to check if an anchor is successfully tracked (State.Found)?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to create a multi-session AR experience using spatial persistence?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use hit testing to detect the floor?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate a cross product?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    }
+]

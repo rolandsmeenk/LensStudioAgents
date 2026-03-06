@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-instantiation",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Write a script that clones a 'Tree' prefab 10 times at random positions within a 10-meter radius around the user.",
+            "expected_output": "A script using prefab.instantiate in a loop with random vector math.",
+            "expectations": [
+                "Uses @input Asset.ObjectPrefab",
+                "Includes a loop that runs 10 times",
+                "Uses Math.random() to create a vec3 within a circle or sphere",
+                "Calls treePrefab.instantiate(null) for each instance"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a grid spawning logic that creates a 5x5 floor of square tiles programmatically.",
+            "expected_output": "A nested loop using prefab.instantiate with offset calculations.",
+            "expectations": [
+                "Uses nested for-loops (i, j) for X and Z axes",
+                "Calculates position as new vec3(i * tileSize, 0, j * tileSize)",
+                "Sets the created object's parent to a common 'Environment' object",
+                "Uses prefab.instantiate(parent)"
+            ]
+        }
+    ]
+}

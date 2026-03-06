@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How do I change VFX particle properties from a script?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to spawn particles when a user taps the screen?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the VFXComponent API for setting asset properties.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to send face tracking data to a VFX graph?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I control the particle birth rate at runtime?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to update a VFX float parameter via script?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I detect a user's display name?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to load a 3D model into Lens Studio?",
+        "should_trigger": false
+    },
+    {
+        "query": "Explain how to use hit testing.",
+        "should_trigger": false
+    }
+]

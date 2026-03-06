@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I implement in-app purchases in my Lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to query the user's purchase history using CommerceKit.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to launch the swipe-to-buy flow for a digital item?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to check if a user already owns a specific non-consumable item?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle the acknowledgePurchase call to verify consumption?",
+        "should_trigger": true
+    },
+    {
+        "query": "What is the difference between launchPurchaseFlow and queryPurchaseHistory?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to format price cents into a user-friendly string.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to send a standard GET request to a server?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on real surfaces?",
+        "should_trigger": false
+    }
+]

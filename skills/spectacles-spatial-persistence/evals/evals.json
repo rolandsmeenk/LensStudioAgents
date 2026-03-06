@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-spatial-persistence",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement a script that creates a spatial anchor at the current camera position and saves it to the cloud so it can be recovered later.",
+            "expected_output": "A script using AnchorModule.createWorldAnchor and saveAnchor.",
+            "expectations": [
+                "Uses @input Asset.AnchorModule",
+                "Calls anchorModule.createWorldAnchor(transform.getWorldPosition(), transform.getWorldRotation())",
+                "Calls anchorModule.saveAnchor(anchor, callback) to persist it",
+                "Logs the resulting anchor ID for future recovery"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a logic that restores a 3D trophy object's position when a specific saved anchor is found nearby.",
+            "expected_output": "A script listening for onAnchorNearby and aligning the object.",
+            "expectations": [
+                "Registers a listener for anchorModule.onAnchorNearby",
+                "Matches the incoming anchor.id against a stored ID",
+                "Updates trophy.getTransform().setWorldTransform(anchor.getWorldTransform())",
+                "Handles the State.Found check for the anchor"
+            ]
+        }
+    ]
+}

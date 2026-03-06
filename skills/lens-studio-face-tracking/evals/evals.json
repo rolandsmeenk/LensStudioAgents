@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-face-tracking",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a component that changes the scale of an object on the user's nose based on how wide they open their mouth.",
+            "expected_output": "A component that gets the mouth-open expression weight and applies it to an object's scale.",
+            "expectations": [
+                "Uses @input Component.FaceTracking",
+                "Uses faceTracking.getExpressionWeight() or similar for mouth-open",
+                "Applies the weight to this.getTransform().setLocalScale()",
+                "Appropriately maps the weight (0-1) to a reasonable scale range"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a logic that toggles a 3D glasses prefab on/off when the user blinks their left eye.",
+            "expected_output": "A listener for the eye blink expression weight that toggles object enabled state.",
+            "expectations": [
+                "Uses eye-blink expression weight",
+                "Includes a threshold check (e.g., > 0.8) for the blink",
+                "Uses object.enabled = !object.enabled or similar toggle logic",
+                "Includes a debounce or state flag to prevent rapid flickering while eyes are closed"
+            ]
+        }
+    ]
+}

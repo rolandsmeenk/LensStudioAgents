@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-math",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Write a function that billboards an object so it always faces the camera but only rotates around the Y axis.",
+            "expected_output": "A script that captures camera position, zeros out the Y difference, and uses quat.lookAt.",
+            "expectations": [
+                "Uses global.Scene.getCamera().getTransform().getWorldPosition() or similar",
+                "Sets the Y component of the direction vector to 0 to constrain rotation",
+                "Uses quat.lookAt(direction, vec3.up())",
+                "Applies the calculation in an UpdateEvent"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Create a logic that smoothly moves an object from point A to point B over 3 seconds using lerp.",
+            "expected_output": "A script tracking elapsed time and using vec3.lerp with a calculated alpha (t/duration).",
+            "expectations": [
+                "Uses vec3.lerp(startPos, endPos, alpha)",
+                "Calculates alpha using (getTime() - startTime) / duration",
+                "Clamps alpha to [0, 1] using MathUtils.clamp or similar",
+                "Uses an UpdateEvent to update the position per frame"
+            ]
+        }
+    ]
+}

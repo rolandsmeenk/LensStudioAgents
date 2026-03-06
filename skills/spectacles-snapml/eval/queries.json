@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I run a custom SnapML model in Lens Studio?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to set up the MLComponent for inference.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to parse output tensors from a YOLO or SSD detector?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to run an ML model asynchronously to avoid frame drops?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to optimize my ONNX/TFLite model for the Spectacles NPU?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use INT8 quantization for ML models.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to integrate machine learning detections with physics colliders?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to call a large language model in the cloud?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate a cross product?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect simple pinch gestures?",
+        "should_trigger": false
+    }
+]

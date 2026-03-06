@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-2d-ui",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement an 'OK' button listener in screen space that prints a message when clicked and uses a ScreenTransform to anchor to the bottom right.",
+            "expected_output": "A script using ScreenTransform and a TouchEvent listener.",
+            "expectations": [
+                "Uses @input Component.ScreenTransform",
+                "Sets anchors/offsets for bottom-right alignment (e.g., anchorMin = new vec2(1,0))",
+                "Creates a 'TouchStartEvent' or uses a 'Button' component event",
+                "Uses global.print() inside the callback"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a script that converts a screen-space tap location (from TapEvent) to a world-space direction vector.",
+            "expected_output": "A script utilizing the screen-to-world conversion math.",
+            "expectations": [
+                "Uses a TapEvent or TouchStartEvent",
+                "Uses event.getTapPosition() to get screen coords",
+                "Uses camera.screenPointToWorld(pos) or similar API",
+                "Normalizes the resulting direction vector"
+            ]
+        }
+    ]
+}

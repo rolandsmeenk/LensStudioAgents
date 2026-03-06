@@ -1,0 +1,28 @@
+{
+    "skill_name": "lens-studio-scripting",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that logs 'Hello World' once when the lens starts and then logs 'Updating' every frame for 5 seconds.",
+            "expected_output": "A TypeScript class using @component, implementing onAwake for the initial log, and using getTime() or a timer to stop updating after 5 seconds.",
+            "expectations": [
+                "The class is decorated with @component",
+                "Includes an onAwake() method",
+                "Uses this.createEvent('UpdateEvent')",
+                "Includes a check for getTime() or uses a calculated duration to stop logging after 5s",
+                "Uses global.print() or print() for logging"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a component that takes a SceneObject as input and instantiates a prefab as a child of that object when the lens starts.",
+            "expected_output": "A script with an @input SceneObject and @input ObjectPrefab, using prefab.instantiate(parent) in onAwake or onStart.",
+            "expectations": [
+                "Uses @input SceneObject",
+                "Uses @input ObjectPrefab",
+                "Calls prefab.instantiate(parentObject)",
+                "Logic is inside onAwake() or an OnStartEvent listener"
+            ]
+        }
+    ]
+}

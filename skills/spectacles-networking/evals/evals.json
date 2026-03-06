@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-networking",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Write a component that fetches a JSON joke from an API and displays it on screen when a user pinches.",
+            "expected_output": "A script using RemoteServiceModule (networking) and JSON.parse.",
+            "expectations": [
+                "Uses @input Asset.RemoteServiceModule",
+                "Calls networking.get(url, callback)",
+                "Uses JSON.parse(response.body) inside the callback",
+                "Handles error cases in the callback (e.g., status != 200)"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Create a logic that posts a list of coordinates to a server every 10 seconds.",
+            "expected_output": "A script using networking.post with a JSON payload and a timer.",
+            "expectations": [
+                "Uses a timer or DelayedCallbackEvent for the 10s interval",
+                "Calls networking.post(url, headers, body, callback)",
+                "Serializes data using JSON.stringify()",
+                "Correctly sets the 'Content-Type': 'application/json' header"
+            ]
+        }
+    ]
+}

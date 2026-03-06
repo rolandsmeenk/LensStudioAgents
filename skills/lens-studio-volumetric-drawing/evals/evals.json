@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-volumetric-drawing",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that generates a 3D tube following a Catmull-Rom spline path defined by 4 control points.",
+            "expected_output": "A script using VolumetricLine and spline math to update mesh geometry.",
+            "expectations": [
+                "Includes a Catmull-Rom math function (or uses a library)",
+                "Generates intermediate points along the spline segment",
+                "Passes point array to the VolumetricLine custom component",
+                "Correctly sets the tubular radius and color parameters"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a real-time 'trail' renderer that adds the user's hand position to a spline every frame and redraws the 3D line.",
+            "expected_output": "A script that manages a point buffer and triggers a redraw of the volumetric mesh.",
+            "expectations": [
+                "Maintains an array of vec3 points",
+                "Pushes current hand position to the array in an UpdateEvent",
+                "Triggers a 'rebuild' or 'updateData' on the VolumetricLine component",
+                "Includes a limit to the number of points (buffer management) to prevent memory issues"
+            ]
+        }
+    ]
+}

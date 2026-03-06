@@ -1,0 +1,46 @@
+[
+    {
+        "query": "How do I use the pinch gesture on Spectacles?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to set up a SIK PinchButton in script.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to make an object grabbable using Spectacles Interaction Kit?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use the GestureModule to detect a pinch?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to save data to the local persistent store on Spectacles?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to create a spatial anchor using SIK?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the difference between Interactable and Interactor in SIK.",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use LSTween to animate a UI panel?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set a material color in script?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to send a REST API request?",
+        "should_trigger": false
+    }
+]

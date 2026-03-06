@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I get the user's Snapchat display name?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to load a user's 3D Bitmoji into the scene?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use the Friends API to see who else is in the lens.",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use UserContextSystem to personalize a lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle Bitmoji 2D resources?",
+        "should_trigger": true
+    },
+    {
+        "query": "What is the Poster/Responder mechanic used for?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to implement a leaderboard in a social lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I create a new script in Lens Studio?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate a cross product?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on Spectacles?",
+        "should_trigger": false
+    }
+]

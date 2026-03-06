@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-mocopi-integration",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Write a central controller for Sony mocopi that receives frame data and rotates a 3D avatar's hip joint in real-time.",
+            "expected_output": "A script using MocopiReceiver and joint rotation mapping.",
+            "expectations": [
+                "Uses @input Component.MocopiReceiver",
+                "Listens for onMocopiFrame or similar frame event",
+                "Extracts joint rotation for 'root' or 'hip' from the frame",
+                "Applies quat rotation to the avatar's hip SceneObject"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a script that maps a list of mocopi-defined 'bone' identifiers to a local array of SceneObjects in the lens.",
+            "expected_output": "A script utilizing a bone-map to drive multiple joints.",
+            "expectations": [
+                "Defines a mapping between mocopi IDs and SceneObjects",
+                "Includes a loop to iterate through all active bones in the frame",
+                "Correctly handles coordinate space conversion (e.g., BVH to Lens Studio local space)",
+                "Includes null-checks for unmapped bones"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How to use ScreenTransform for 2D UI anchors?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the difference between TouchStartEvent and TapEvent.",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I handle button clicks in screen space?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use ScreenRegionComponent to block touch events?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to convert screen coordinates to world coordinates?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to animate UI elements using LSTween?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set up a multi-swatch color picker in the UI?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I set a material on a 3D mesh?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a user's face?",
+        "should_trigger": false
+    },
+    {
+        "query": "Explain hit testing on horizontal surfaces.",
+        "should_trigger": false
+    }
+]

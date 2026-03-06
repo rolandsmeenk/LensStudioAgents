@@ -1,0 +1,50 @@
+[
+    {
+        "query": "How do I rotate an object to look at the camera?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the difference between vec3 and quat.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to calculate the distance between two 3D points?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use quat.lookAt to orient a billboard?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to convert a world position to screen UV?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use lerp to move an object smoothly?",
+        "should_trigger": true
+    },
+    {
+        "query": "Show me how to multiply two matrices in Lens Studio.",
+        "should_trigger": true
+    },
+    {
+        "query": "What is the MathUtils.remap function used for?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to add a script to a scene object?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect if a user is smiling?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use raycasting to hit the floor?",
+        "should_trigger": false
+    },
+    {
+        "query": "Can I use SnapML to detect hands?",
+        "should_trigger": false
+    }
+]

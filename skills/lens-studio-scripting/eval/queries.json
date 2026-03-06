@@ -1,0 +1,15 @@
+[
+  { "query": "How do I create a script component in Lens Studio?", "should_trigger": true },
+  { "query": "What are the lifecycle events like onAwake and onStart?", "should_trigger": true },
+  { "query": "How to use @component and @input decorators in TypeScript?", "should_trigger": true },
+  { "query": "How do I print a message to the logger?", "should_trigger": true },
+  { "query": "How to instantiate a prefab from script?", "should_trigger": true },
+  { "query": "What is the order of script execution in Lens Studio?", "should_trigger": true },
+  { "query": "How to get a reference to a component on the same object?", "should_trigger": true },
+  { "query": "Explain how to use timers or DelayedCallbackEvent.", "should_trigger": true },
+  { "query": "How do I calculate a cross product of two vectors?", "should_trigger": false },
+  { "query": "How to use the Spectacles Interaction Kit buttons?", "should_trigger": false },
+  { "query": "How do I tracking a user's face landmarks?", "should_trigger": false },
+  { "query": "How to send a GET request in Spectacles?", "should_trigger": false },
+  { "query": "Can you explain the difference between local and world coordinates?", "should_trigger": false }
+]

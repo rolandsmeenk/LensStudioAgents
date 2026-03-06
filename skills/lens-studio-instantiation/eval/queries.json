@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How to programmatically spawn many objects in a 3D grid layout?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to instantiate prefabs into a sphere or perimeter pattern.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use mathematical layout recipes for spawning voxel-like structures?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use ObjectPrefab.instantiate() in a nested loop to create a voxel world?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to calculate positions for objects in a 3D grid using a script?",
+        "should_trigger": true
+    },
+    {
+        "query": "Show me a pattern for spawning static prefabs at runtime based on data.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set a material color in script?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on real surfaces?",
+        "should_trigger": false
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I set up a multiplayer session on Spectacles?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use the Spectacles Sync Kit.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to sync an object's position across multiple users?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use RealtimeStore to share state between users?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to broadcast a custom network event in a connected lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle ownership of a shared physics object?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle users joining or leaving a session?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I make a single-player leaderboard?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect floor hit tests?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to change a material color?",
+        "should_trigger": false
+    }
+]

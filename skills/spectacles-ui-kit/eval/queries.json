@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I create a button programmatically using the Spectacles UI Kit?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use the FastUI (SpectaclesUIKit) to layout a grid of capsules.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use the Frame component to contain other UI elements?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I initialize a RectangleButton in code without using a prefab?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the lifecycle of components in SpectaclesUIKit (createComponent -> initialize).",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set the size and padding of a GridLayout programmatically?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I handle click events on a RoundButton from the UI Kit?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to create a standard Screen Image in the 2D editor?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "Explain how to use the networking module.",
+        "should_trigger": false
+    }
+]

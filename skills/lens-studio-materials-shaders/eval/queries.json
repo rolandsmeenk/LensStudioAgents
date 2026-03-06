@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I change the color of a material in script?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain why I should clone a material before modifying it.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to access the mainPass of a material to change its texture?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set individual shader parameters from a TypeScript script?",
+        "should_trigger": true
+    },
+    {
+        "query": "What are the common blend modes like Additive or Multiply?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle render order and depth settings in materials?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set up a RenderTarget for post-processing?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I create a new scene object?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to animate an object using LSTween?",
+        "should_trigger": false
+    },
+    {
+        "query": "Explain how to use face tracking.",
+        "should_trigger": false
+    }
+]

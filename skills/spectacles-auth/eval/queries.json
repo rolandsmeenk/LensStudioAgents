@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I implement OAuth2 login in my Lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use PKCE for secure authentication in Spectacles.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle a deep link redirect callback after a user logs in?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use the InternetModule to swap an auth code for an access token?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I store an access token securely using GeneralDataStore?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the difference between Authorization Code flow and Implicit flow in Lens Studio.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to add a 'Login' button that opens the system browser?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to query a database using Snap Cloud?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use simple pinch gestures?",
+        "should_trigger": false
+    }
+]

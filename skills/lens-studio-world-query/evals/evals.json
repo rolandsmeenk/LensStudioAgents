@@ -1,0 +1,28 @@
+{
+    "skill_name": "lens-studio-world-query",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement a script that spawns a 'marker' prefab exactly where the user taps on the floor.",
+            "expected_output": "A script using WorldQueryModule.hitTest, filtering for floor/horizontal surfaces, and instantiating a prefab at the resulting position.",
+            "expectations": [
+                "Uses @input Asset.WorldQueryModule",
+                "Creates a HitTestSession with SurfaceOptions",
+                "Includes a callback for session.onHitTestResult",
+                "Checks resultType against HitTestResultType.Floor or similar",
+                "Sets the spawned object's worldTransform or position to the hit position"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Create a raycast helper that detects if there is a wall within 2 meters directly in front of the user.",
+            "expected_output": "A script using Physics.createGlobalProbe().rayCast from the camera position along the forward vector.",
+            "expectations": [
+                "Uses Physics.createGlobalProbe()",
+                "Calculates ray direction using camera forward vector",
+                "Calls probe.rayCast(start, end, callback)",
+                "Filters or checks the distance of the hit to be <= 2.0"
+            ]
+        }
+    ]
+}

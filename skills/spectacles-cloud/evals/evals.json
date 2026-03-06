@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-cloud",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that queries a 'Players' table in Supabase and logs the names of all players with a score greater than 100.",
+            "expected_output": "A script using the CloudModule to perform a database query.",
+            "expectations": [
+                "Uses global.cloudModule or @input Asset.CloudModule",
+                "Calls cloud.from('Players').select('name').gt('score', 100).exec(callback)",
+                "Inside the callback, iterates through results and logs names",
+                "Includes error handling in the callback (e.g., check for result.error)"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a logic that uploads a local Texture asset to a Supabase bucket called 'UserPhotos'.",
+            "expected_output": "A script using CloudModule.storage for file uploads.",
+            "expectations": [
+                "Uses cloud.storage.from('UserPhotos').upload(path, texture, callback)",
+                "Correctly identifies the source texture as an @input Asset.Texture",
+                "Includes a callback to log success or verify the public URL",
+                "Handles the asynchronous nature of the upload"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I connect from my lens to an external Bluetooth device?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to scan for BLE peripherals by service UUID.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to read or write bytes to a Bluetooth characteristic?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle notifications from a BLE device in a loop?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use DataView for parsing complex byte/float packets in BLE?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain the disconnection and auto-reconnect logic for BLE on Spectacles.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use the Spectacles Mobile Kit for phone communication via BLE?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I send a standard REST API request?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate a cross product?",
+        "should_trigger": false
+    }
+]

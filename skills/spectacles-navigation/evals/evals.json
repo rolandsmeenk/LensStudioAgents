@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-navigation",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that checks if the user is currently at a Custom Location (using its location ID) and logs 'Arrived' if the status is Found.",
+            "expected_output": "A script using CustomLocationModule to check localization state.",
+            "expectations": [
+                "Uses @input Asset.CustomLocationModule",
+                "Calls locationModule.getLocalizationStatus(locationId)",
+                "Includes a check for LocalisationStatus.Found",
+                "Updates the check inside an UpdateEvent or periodic timer"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a logic that calculates the distance in meters between the user's current GPS position and a static coordinate (latitude/longitude).",
+            "expected_output": "A script using GeoLocationModule and the Haversine formula or a simple distance approximation.",
+            "expectations": [
+                "Uses @input Asset.GeoLocationModule",
+                "Captures current lat/long from GeoLocationModule",
+                "Implements a distance calculation function",
+                "Units are returned in meters"
+            ]
+        }
+    ]
+}

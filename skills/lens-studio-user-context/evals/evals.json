@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-user-context",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that displays the current user's Snapchat display name on a 3D Text component in the scene.",
+            "expected_output": "A script that calls UserContextSystem.getDisplayName() and assigns it to a Text component's text property.",
+            "expectations": [
+                "Uses global.userContextSystem.getDisplayName()",
+                "Takes a Component.Text or Component.Text3D as @input",
+                "Includes a null-check for the text component",
+                "Logic is inside onAwake() or an OnStartEvent listener"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a component that loads the user's 3D Bitmoji and parents it to the script's SceneObject.",
+            "expected_output": "A script using BitmojiModule.requestBitmoji3D to load the avatar.",
+            "expectations": [
+                "Uses @input Asset.BitmojiModule",
+                "Calls bitmojiModule.requestBitmoji3D(callback)",
+                "Inside the callback, sets result.parent = this.getSceneObject()",
+                "Includes error handling in the callback for failed loads"
+            ]
+        }
+    ]
+}

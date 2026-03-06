@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-camera-texture",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that requests the color camera texture from the right eye of the Spectacles and assigns it to a material parameter called 'CameraFeed'.",
+            "expected_output": "A script using CameraModule.requestTexture and CameraRequest.",
+            "expectations": [
+                "Uses global.cameraModule or @input Asset.CameraModule",
+                "Creates a new CameraRequest()",
+                "Sets request.camera = CameraType.Right_Color",
+                "Inside the callback, sets material.mainPass.CameraFeed = texture"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a logic that uses CropTextureProvider to take a square crop of the center of the camera feed and saves it to a texture asset.",
+            "expected_output": "A script configuring CropTextureProvider at runtime.",
+            "expectations": [
+                "Uses @input Asset.CropTextureProvider",
+                "Sets crop.inputTexture to the camera output",
+                "Configures sourceCenter and sourceSize for a center square crop",
+                "Uses the resulting crop.outputTexture in a material or ML input"
+            ]
+        }
+    ]
+}

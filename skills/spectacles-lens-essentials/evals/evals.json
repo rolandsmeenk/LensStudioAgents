@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-lens-essentials",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that logs 'Pinched!' only when the user pinches a specific SIK PinchButton with their hand.",
+            "expected_output": "A script using PinchButton.onClicked or the SIK interaction events.",
+            "expectations": [
+                "Uses @input Component.PinchButton",
+                "Registers a callback to pinchButton.onClicked.add(callback)",
+                "Inside callback uses global.print('Pinched!')",
+                "Includes a null-check for the PinchButton input"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a grabbable object that resets its position to the origin when the user releases it.",
+            "expected_output": "A script using Interactable.onDragEnd or onTriggerEnd from SIK.",
+            "expectations": [
+                "Uses @input Component.Interactable",
+                "Registers a listener for onDragEnd or onTriggerEnd",
+                "Inside listener, sets worldTransform.position = vec3.zero()",
+                "Correctly uses SIK interaction event patterns"
+            ]
+        }
+    ]
+}

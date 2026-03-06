@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-connected-lenses",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement a shared counter that increments for all users when any one user clicks a button.",
+            "expected_output": "A script using RealtimeStore or Sync Kit to manage a shared integer.",
+            "expectations": [
+                "Uses ConnectedLensesModule to check session state",
+                "Uses RealtimeStore to host a shared value (e.g., 'counter')",
+                "Calls store.set() or increments via a server-side logic pattern",
+                "Includes a listener to update local UI when the store value changes"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a script that broadcasts a 'Sparkle' network event to all users when a user taps a SceneObject.",
+            "expected_output": "A script using session.sendMessage to broadcast a custom event.",
+            "expectations": [
+                "Uses session.sendMessage(message) or broadcast equivalent",
+                "Message payload includes the event name 'Sparkle'",
+                "Includes session.onMessageReceived.add(callback) to handle the effect locally",
+                "Checks if the local user is in a session before sending"
+            ]
+        }
+    ]
+}

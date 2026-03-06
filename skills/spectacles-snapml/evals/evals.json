@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-snapml",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Write a script that runs a YOLO object detection model on the camera feed and prints the confidence of the first detected object.",
+            "expected_output": "A script using MLComponent to run a model and parse output tensors.",
+            "expectations": [
+                "Uses @input Component.MLComponent",
+                "Calls mlComponent.run() or listens for OnFinished callback",
+                "Accesses output tensors using mlComponent.getOutput(name).data",
+                "Supports async inference pattern to maintain frame rate"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Create a logic that feeds a 256x256 cropped camera texture into an ML model and logs the top prediction index.",
+            "expected_output": "A script using CropTextureProvider to preprocess input for SnapML.",
+            "expectations": [
+                "Uses Asset.CropTextureProvider to handle the crop",
+                "Sets mlComponent.inputPaths[0].texture = cropTexture",
+                "Accesses the classification output tensor",
+                "Implements a Softmax or ArgMax logic to find the top index"
+            ]
+        }
+    ]
+}

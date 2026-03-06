@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-vfx",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Write a script that updates a 'spawnPos' vector parameter in a VFX component based on where the user pinches in the world.",
+            "expected_output": "A script using vfxComponent.asset.properties to pass a vec3 into the graph.",
+            "expectations": [
+                "Takes a Component.VFX as @input",
+                "Updates vfx.asset.properties['spawnPos'] or similar path",
+                "Uses vec3 for the position data",
+                "Logic triggered by a SIK Pinch or GestureModule event"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Create a logic that ramps up a VFX float parameter called 'Intensity' from 0 to 1 over 2 seconds when an event fires.",
+            "expected_output": "An interpolation loop updating a VFX asset property over time.",
+            "expectations": [
+                "Uses an UpdateEvent for the ramp-up",
+                "Calculates alpha based on elapsed time",
+                "Updates vfx.asset.properties['Intensity']",
+                "Clamps the value to [0, 1]"
+            ]
+        }
+    ]
+}

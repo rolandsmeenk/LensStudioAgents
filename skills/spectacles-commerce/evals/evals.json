@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-commerce",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Implement a purchase button that triggers a 'swipe to buy' flow for a digital item with SKU 'magic_sword_001'.",
+            "expected_output": "A script using CommerceKitModule.launchPurchaseFlow.",
+            "expectations": [
+                "Uses global.commerceKitModule or @input Asset.CommerceKitModule",
+                "Calls commerceKit.launchPurchaseFlow('magic_sword_001', callback)",
+                "Includes a callback listener for success/failure/cancellation",
+                "Handles the 'acknowledged' state for non-consumable items"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a script that checks if the user already owns the 'vip_pass' item when the lens starts and enables a 'VIP Lounge' object if they do.",
+            "expected_output": "A script using commerceKit.queryPurchaseHistory.",
+            "expectations": [
+                "Calls commerceKit.queryPurchaseHistory(callback)",
+                "Inside callback, filters history for SKU 'vip_pass'",
+                "Sets loungeObject.enabled = true if found",
+                "Handles the case where the user has no purchase history"
+            ]
+        }
+    ]
+}

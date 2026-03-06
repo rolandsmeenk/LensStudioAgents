@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How do I draw high-quality 3D tubes in a lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use VolumetricLine for spatial drawing.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to generate a mesh from a Catmull-Rom spline at runtime?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use the runtime line gizmo for spatial debugging?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to configure the geometry detail and tube radius in VolumetricLine.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to animate a 3D line path programmatically?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to create a standard 2D UI button?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a user's smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on the floor?",
+        "should_trigger": false
+    }
+]

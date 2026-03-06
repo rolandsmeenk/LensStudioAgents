@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How do I implement proximity triggers for AR objects?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use DistanceEventsTS to trigger enter/exit sounds.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to make an object follow the camera smoothly with a distance limit?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use the TetherTS behavior for 'lazy follow' UI.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to calculate the distance percentage between two points for a visual effect?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I trigger an event when an object enters a specific proximity zone?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set a material color in script?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on real surfaces?",
+        "should_trigger": false
+    }
+]

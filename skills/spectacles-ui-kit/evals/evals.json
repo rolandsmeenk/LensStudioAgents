@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-ui-kit",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a vertical list of three buttons ('Home', 'Settings', 'Profile') programmatically using the Spectacles UI Kit.",
+            "expected_output": "A script using createComponent(Button) inside a Column or GridLayout.",
+            "expectations": [
+                "Uses spectaclesUIKit.createComponent(Button, parent)",
+                "Sets the button labels to 'Home', 'Settings', and 'Profile'",
+                "Uses a Column, Row, or GridLayout for the vertical arrangement",
+                "Sets appropriate padding or spacing between components"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Write a logic that creates a 2x2 grid of image capsules showing different Bitmoji icons using FastUI.",
+            "expected_output": "A script using GridLayout and Capsule components with Bitmoji resources.",
+            "expectations": [
+                "Uses spectaclesUIKit.createComponent(GridLayout, parent)",
+                "Configures the grid for a 2x2 layout",
+                "Uses spectaclesUIKit.createComponent(Capsule, grid) for the items",
+                "Assigns Asset.Texture (Bitmoji) to the capsules"
+            ]
+        }
+    ]
+}

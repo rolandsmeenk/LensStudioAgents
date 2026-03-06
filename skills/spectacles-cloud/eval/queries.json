@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I use Snap Cloud with a Supabase backend?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use Snap Cloud Realtime for live updates.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to call a serverless Edge Function from a lens script?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I upload an image to a Cloud Storage bucket?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set up Row Level Security (RLS) for Snap Cloud?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle database query errors in Snap Cloud?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use Snap Cloud to share data across separate lenses?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I make a standard GET request in a lens?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a user's face landmarks?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on real surfaces?",
+        "should_trigger": false
+    }
+]

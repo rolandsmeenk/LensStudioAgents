@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-materials-shaders",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a script that clones an object's material and changes its 'baseColor' to blue at runtime.",
+            "expected_output": "A script using component.mainMaterial.clone() and modifying the cloned instance.",
+            "expectations": [
+                "Uses Component.RenderMeshVisual to access the material",
+                "Calls visual.mainMaterial.clone() to avoid modifying the asset",
+                "Assigns the clone back to visual.mainMaterial",
+                "Uses material.mainPass.baseColor = new vec4(0, 0, 1, 1)"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a logic that cycles a shader's 'Offset' float parameter between 0 and 1 every frame.",
+            "expected_output": "An UpdateEvent modifying a shader pass parameter.",
+            "expectations": [
+                "Uses an UpdateEvent",
+                "Uses Math.sin or similar to cycle the value",
+                "Accesses material.mainPass['Offset'] or similar mapping",
+                "Correctly identifies the property name as defined in the Material Editor"
+            ]
+        }
+    ]
+}

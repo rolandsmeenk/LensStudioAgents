@@ -1,0 +1,27 @@
+{
+    "skill_name": "spectacles-ai",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Write a component that sends the user's voice transcription (from ASR) to an LLM via the Remote Service Gateway and speaks the response.",
+            "expected_output": "A script using VoiceASRModule for text capture and RSG for AI inference.",
+            "expectations": [
+                "Uses @input Asset.VoiceASRModule and RSG module",
+                "Listens for onTranscriptionFinished or similar ASR event",
+                "Calls remoteServiceGateway.sendRequest(request, callback) with the prompt",
+                "Inside callback, passes response text to TextToSpeechModule"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Create a vision-AI loop that captures a camera frame every 5 seconds and asks an AI agent 'What do you see?'",
+            "expected_output": "A script using CameraModule for frame capture and RSG for vision model requests.",
+            "expectations": [
+                "Uses a timer or UpdateEvent for the 5s interval",
+                "Calls cameraModule.requestTexture(callback) to get a frame",
+                "Includes the camera frame as a 'vision' attachment in the RSG request",
+                "Handles large image payload considerations"
+            ]
+        }
+    ]
+}

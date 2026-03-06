@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How do I connect Sony mocopi motion capture to Spectacles?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use the MocopiMainController to drive an avatar.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to handle real-time mocopi joint rotations in a lens?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to map a mocopi skeleton definition to a 3D model in Lens Studio?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I process incoming mocopi frame data over WebSockets?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to set up the MocopiReceiver component on Spectacles.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to track a user's face using standard tracking?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to send a REST API request?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate a cross product?",
+        "should_trigger": false
+    }
+]

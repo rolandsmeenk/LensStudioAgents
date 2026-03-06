@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How to use TypeScript decorators for event binding in Lens Studio?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how @bindUpdateEvent or @bindDestroyEvent work.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use the @depends and @provider decorators for dependency injection?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use the Snap Decorators library to reduce boilerplate script code?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I implement lazy evaluation using the @memo decorator?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how decorators can simplify Lens Studio lifecycle event handling.",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I create a standard script component?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a face smile?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate the dot product of two vectors?",
+        "should_trigger": false
+    }
+]

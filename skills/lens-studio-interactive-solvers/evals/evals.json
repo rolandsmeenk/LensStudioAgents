@@ -1,0 +1,27 @@
+{
+    "skill_name": "lens-studio-interactive-solvers",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Create a 'Tether' logic that makes a 3D UI panel follow the user's hand smoothly but stay exactly 20cm away from it at all times.",
+            "expected_output": "A script using the TetherTS solver or custom vec3.lerp logic with a distance constraint.",
+            "expectations": [
+                "Uses @input Component.SceneObject for the target (e.g., Hand)",
+                "Calculates distance between object and target",
+                "Sets object world position to targetPos + (dir * 0.2)",
+                "Includes a smoothing factor (lerp) for the follow behavior"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Implement a proximity-triggered sound effect that plays when the user gets within 1 meter of a spatial pedestal.",
+            "expected_output": "A script using DistanceEventsTS or a manual distance check with edge-triggering.",
+            "expectations": [
+                "Calculates vec3.dist(userPos, pedestalPos)",
+                "Includes an edge-trigger (check if state was previously > 1m)",
+                "Calls audioComponent.play(1)",
+                "Handles the 'exit' condition if needed to prevent repeated triggers"
+            ]
+        }
+    ]
+}

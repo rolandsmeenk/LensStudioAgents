@@ -1,0 +1,42 @@
+[
+    {
+        "query": "How do I detect the floor or walls using hit testing?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain semantic surface classification on Spectacles.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to align an object to a surface normal after a hit test?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use WorldQueryModule for real-world interaction?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use Physics.rayCast for scene collider hits?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to set up a HitTestSession in Lens Studio?",
+        "should_trigger": true
+    },
+    {
+        "query": "Can I filter hit tests to only find horizontal surfaces?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to rotate an object based on the face tracking state?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to calculate the dot product of two vectors?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to spawn a prefab at a specific coordinate?",
+        "should_trigger": false
+    }
+]

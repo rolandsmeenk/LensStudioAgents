@@ -1,0 +1,38 @@
+[
+    {
+        "query": "How do I access the raw camera feed in Lens Studio?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to use the CameraModule to request a texture from the spectacles camera.",
+        "should_trigger": true
+    },
+    {
+        "query": "How to get the background color texture for a custom shader?",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I use CameraRequest to configure a texture for the Right_Color camera?",
+        "should_trigger": true
+    },
+    {
+        "query": "How to use CropTextureProvider to crop the camera feed for my ML model?",
+        "should_trigger": true
+    },
+    {
+        "query": "Explain how to handle texture routing between materials and camera requests.",
+        "should_trigger": true
+    },
+    {
+        "query": "How do I set a material property at runtime?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to detect a user's face landmarks?",
+        "should_trigger": false
+    },
+    {
+        "query": "How to use hit testing on the floor?",
+        "should_trigger": false
+    }
+]
